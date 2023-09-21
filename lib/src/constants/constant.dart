@@ -50,17 +50,17 @@ class Constant {
           id: 'food$index',
           name: name,
           imageUrl: imageUrl,
-          price: double.parse(getRandomPrice().toStringAsFixed(2)),
+          price: getRandomPrice(),
       );
     },
   );
 
   static final _orders = _randomDates.map(
     (dateTime) {
-      final index = getRandomIndexFrom(_restaurants);
+      final index = getRandomIndexFromList(_restaurants);
       final restaurantName = _restaurants[index].name;
       final menu = _menus[index].foods;
-      final chosenFood = menu[getRandomIndexFrom(menu)];
+      final chosenFood = menu[getRandomIndexFromList(menu)];
       final foodName = chosenFood.name;
       final quantity = getRandomQuantity();
       final price = chosenFood.price;
@@ -96,7 +96,7 @@ class Constant {
           name: getRandomRestaurantName(),
           imageUrl: _restImages[index],
           address: getRandomRestaurantAddress(),
-          rating: double.parse(getRandomRating().toStringAsFixed(1)),
+          rating: getRandomRating(),
           menu: generateStringKey());
     },
   );

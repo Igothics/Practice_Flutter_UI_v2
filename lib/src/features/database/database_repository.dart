@@ -20,7 +20,7 @@ class DatabaseRepository {
   late final StoreRef _userStore;
   late final StoreRef _restaurantStore;
   late final StoreRef _menuStore;
-  late final StoreRef _oldOrderStore;
+  late final StoreRef _userOrdersStore;
 
   Future<List<User>> getAllUsers() async {
     final snapshotUsers = await _userStore.find(_db);
@@ -39,14 +39,14 @@ class DatabaseRepository {
     return Menu.fromJson(menuJson);
   }
 
-  Stream<UserOrders> userOrdersStreamByID(String id) {
-    final userOrdersJson = _oldOrderStore.record(id).onSnapshot(_db).map((snapshot) => snapshot?.value as Map<String, dynamic>);
+  Stream<UserOrders> onUserOrdersChanged(String id) {
+    final userOrdersJson = _userOrdersStore.record(id).onSnapshot(_db).map((snapshot) => snapshot?.value as Map<String, dynamic>);
     final result = userOrdersJson.map((json) => UserOrders.fromJson(json));
     return result;
   }
 
   Future<UserOrders> getUserOrdersByID(String id) async {
-    final userOrdersJson = await _oldOrderStore.record(id).get(_db) as Map<String, dynamic>;
+    final userOrdersJson = await _userOrdersStore.record(id).get(_db) as Map<String, dynamic>;
     return UserOrders.fromJson(userOrdersJson);
   }
   Future<void> addOrders(String id, List<Order> newOrders) async {
@@ -55,29 +55,31 @@ class DatabaseRepository {
     final newOrdersJson = newOrders.map((order) => order.toJson()).toList();
     final allOrders = [...currentOrdersJson, ...newOrdersJson];
 
-    await _oldOrderStore.record(id).update(_db, {'orders': allOrders});
+    await _userOrdersStore.record(id).update(_db, {'orders': allOrders});
   }
 
   Future<void> init() async {
-    log('start to init');
+    log('[DataRepo]: Start to init...');
+
     final dir = await getApplicationDocumentsDirectory();
     _db = await databaseFactoryIo.openDatabase('${dir.path}fake_db.db');
 
     _userStore = intMapStoreFactory.store('users');
     _restaurantStore = intMapStoreFactory.store('restaurants');
     _menuStore = stringMapStoreFactory.store('menus');
-    _oldOrderStore = stringMapStoreFactory.store('old_orders');
+    _userOrdersStore = stringMapStoreFactory.store('old_orders');
 
     final stores = getNonEmptyStoreNames(_db);
     if (stores.isNotEmpty){
+      log('[DataRepo]: Reset data...');
       await _db.transaction((tnx) async {
           await _userStore.drop(tnx);
           await _restaurantStore.drop(tnx);
           await _menuStore.drop(tnx);
-          await _oldOrderStore.drop(tnx);
+          await _userOrdersStore.drop(tnx);
         },
       );
-      log('Data\'s purged all!');
+      log('[DataRepo]: Data\'s purged all!');
     }
 
     final constant = ref.read(constantProvider);
@@ -91,18 +93,25 @@ class DatabaseRepository {
     final menusKeys = constant.getMenusKeys;
     final menusJson = constant.getMenusJson;
 
+    log('[DataRepo]: Generate new data...');
     await _db.transaction((tnx) async {
         await _userStore.addAll(tnx, usersJson);
+        log('[DataRepo]: Users generated!');
+
         await _restaurantStore.addAll(tnx, restaurantsJson);
+        log('[DataRepo]: Restaurants generated!');
+
         for (int i = 0; i < oldOrdersKeys.length; i++) {
-          await _oldOrderStore.record(oldOrdersKeys[i]).put(tnx, oldOrdersJson[i]);
+          await _userOrdersStore.record(oldOrdersKeys[i]).put(tnx, oldOrdersJson[i]);
         }
+        log('[DataRepo]: UserOrders generated!');
+
         for (int i = 0; i < menusKeys.length; i++) {
           await _menuStore.record(menusKeys[i]).put(tnx, menusJson[i]);
-          log('record: ${menusKeys[i]} uploaded!');
         }
+        log('[DataRepo]: Menus generated!');
       },
     );
-    log('Init Done!');
+    log('[DataRepo]: Init process done!');
   }
 }
