@@ -6,7 +6,7 @@ part of 'restaurants_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$restaurantsHash() => r'79217aee9c0123bc67f1135826b9a6a6a40a422d';
+String _$restaurantsHash() => r'6a3e89d54f8a083193daa3dfb12cd6a0af71e80b';
 
 /// See also [restaurants].
 @ProviderFor(restaurants)

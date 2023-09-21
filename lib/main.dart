@@ -6,9 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:practice_food_delivery/src/constants/constant_provider.dart';
 import 'package:practice_food_delivery/src/features/cart/domain/order.dart';
 import 'package:practice_food_delivery/src/features/cart/domain/user_orders.dart';
-import 'package:practice_food_delivery/src/features/database/database_provider.dart';
 import 'package:practice_food_delivery/src/features/database/database_repository_provider.dart';
-import 'package:practice_food_delivery/src/features/database/path_provider.dart';
 import 'package:practice_food_delivery/src/features/login/domain/user.dart';
 import 'package:practice_food_delivery/src/features/login/presentation/users_provider.dart';
 import 'package:practice_food_delivery/src/features/menu/domain/menu.dart';
@@ -32,7 +30,6 @@ class WarmUp extends ConsumerStatefulWidget {
 class _WarmUpState extends ConsumerState<WarmUp> {
   bool warmedUp = false;
   int count = 0;
-  int step = 1;
   @override
   Widget build(BuildContext context) {
     log('Round ${count++} - warmedUp: $warmedUp');
@@ -41,47 +38,15 @@ class _WarmUpState extends ConsumerState<WarmUp> {
       return const MyApp();
     }
 
-    final providers = <ProviderListenable<AsyncValue<Object?>>>[
-      pathProvider,
-      databaseProvider,
-      databaseRepositoryProvider,
-    ];
-    final states = providers.map(ref.watch).toList();
-
-    if (step == 1) {
-      final path = ref.watch(pathProvider);
-      switch (path) {
-        case AsyncData():
-          log('path initialized!: $path');
-          step++;
-        case AsyncError(): log('path error: $path');
-        default: log('path initializing...');
-      }
+    final dataRepo = ref.watch(databaseRepositoryProvider);
+    switch (dataRepo) {
+      case AsyncData():
+        log('databaseRepository initialized!: $dataRepo');
+        Future(() => setState(() => warmedUp = true));
+      case AsyncError(): log('databaseRepository error: ${dataRepo.error}');
+      default: log('databaseRepository initializing...');
     }
 
-    if (step == 2) {
-      final db = ref.watch(databaseProvider);
-      switch (db) {
-        case AsyncData():
-          log('db initialized!: ${db.requireValue.runtimeType}');
-          step++;
-        case AsyncError(): log('db error: $db');
-        default: log('db initializing...');
-      }
-    }
-
-    if (step == 3) {
-      final fakeRepo = ref.watch(databaseRepositoryProvider);
-      switch (fakeRepo) {
-        case AsyncData():
-          log('databaseRepository initialized!: $fakeRepo');
-          Future(() => setState(() => warmedUp = true));
-        case AsyncError(): log('databaseRepository error: ${fakeRepo.error}');
-        default: log('databaseRepository initializing...');
-      }
-    }
-
-    // setState(() => count++);
     log('='*30);
     return const Center(child: CircularProgressIndicator(),);
   }
