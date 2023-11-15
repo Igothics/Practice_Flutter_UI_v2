@@ -1,20 +1,11 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:practice_food_delivery/src/constants/constant_provider.dart';
-import 'package:practice_food_delivery/src/features/cart/domain/order.dart';
-import 'package:practice_food_delivery/src/features/cart/domain/user_orders.dart';
-import 'package:practice_food_delivery/src/features/database/database_repository_provider.dart';
-import 'package:practice_food_delivery/src/features/login/domain/user.dart';
-import 'package:practice_food_delivery/src/features/login/presentation/users_provider.dart';
-import 'package:practice_food_delivery/src/features/menu/domain/menu.dart';
-import 'package:practice_food_delivery/src/features/menu/presentation/menu_provider.dart';
-import 'package:practice_food_delivery/src/features/restaurants/domain/restaurant.dart';
-import 'package:practice_food_delivery/src/features/restaurants/presentation/restaurants_provider.dart';
-import 'package:practice_food_delivery/src/features/restaurants/presentation/user_order_provider.dart';
-
+import 'package:practice_food_delivery/src/database/database_repository_provider.dart';
+import 'package:practice_food_delivery/src/theme/theme_provider.dart';
+import 'package:practice_food_delivery/src/routing/router_provider.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -52,124 +43,32 @@ class _WarmUpState extends ConsumerState<WarmUp> {
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends HookConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+    final lightTheme = ref.watch(baseThemeProvider(Brightness.light));
+    final darkTheme = ref.watch(baseThemeProvider(Brightness.dark));
+    final themeMode = ref.watch(themeModeProvider);
+
+    return MaterialApp.router(
       title: 'Test food shopping App UI',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepOrange,
-          brightness: Brightness.dark,).harmonized(),
-        useMaterial3: true,
-      ),
-      home: const HomePage(),
+      debugShowCheckedModeBanner: false,
+      debugShowMaterialGrid: false,
+      scrollBehavior: CustomScrollBehavior(),
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: themeMode,
+      routerConfig: router,
     );
   }
 }
-
-class HomePage extends HookConsumerWidget {
-  const HomePage({super.key});
-
+class CustomScrollBehavior extends MaterialScrollBehavior{
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final users = ref.watch(usersProvider);
-    final restaurants = ref.watch(restaurantsProvider);
-    final constant = ref.watch(constantProvider);
-    final repository = ref.watch(databaseRepositoryProvider);
-    final menuId = constant.getMenusKeys.first;
-    final ordersId = constant.getOldOrdersKeys.first;
-
-    final menu = ref.watch(menuProvider(menuId));
-    final userOrder = ref.watch(userOrdersProvider(ordersId));
-
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shopping App'),
-      ),
-      body: userOrder.when(
-          data: _buildUserOrdersList,
-          error: (error,_) {
-            log(error.toString());
-            return const SizedBox();
-          },
-          loading: ()=>const CircularProgressIndicator(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          const newOrders = <Order>[
-            Order(restaurantName: 'resX', foodName: 'food01', date: 'date01', quantity: 1, price: 10.0, totalPrice: 10.0),
-            Order(restaurantName: 'resY', foodName: 'food02', date: 'date02', quantity: 2, price: 8.0, totalPrice: 16.0),
-          ];
-          ref.read(databaseRepositoryProvider).requireValue.addOrders(ordersId, newOrders);
-        },
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-
-  ListView _buildUsersList(List<User> users) {
-    return ListView.builder(
-      itemCount: users.length,
-      itemBuilder: (_, index) {
-        final title = users[index].name;
-        final subtitle = users[index].oldOrders;
-        return ListTile(
-          title: Text(title),
-          subtitle: Text(subtitle),
-        );
-      },
-    );
-  }
-  ListView _buildRestaurantsList(List<Restaurant> restaurants) {
-    return ListView.builder(
-      itemCount: restaurants.length,
-      itemBuilder: (_, index) {
-        final title = restaurants[index].name;
-        final subtitle = restaurants[index].address;
-        return ListTile(
-          title: Text(title),
-          subtitle: Text(subtitle),
-        );
-      },
-    );
-  }
-
-  ListView _buildMenuList(Menu menu) {
-    final foods = menu.foods;
-    return ListView.builder(
-      itemCount: foods.length,
-      itemBuilder: (_, index) {
-        final title = foods[index].name;
-        final trailing = foods[index].price;
-
-        return ListTile(
-          title: Text(title),
-          trailing: Text('\$ $trailing'),
-        );
-      },
-    );
-  }
-
-  ListView _buildUserOrdersList(UserOrders userOrder) {
-    final orders = userOrder.orders;
-    return ListView.builder(
-      itemCount: orders.length,
-      itemBuilder: (_, index) {
-        final title = '${orders[index].restaurantName} : ${orders[index].foodName}';
-        final subtitle = '${orders[index].date} quantity:${orders[index].quantity}';
-        final trailing = orders[index].totalPrice;
-
-        return ListTile(
-          title: Text(title),
-          subtitle: Text(subtitle),
-          trailing: Text('\$ $trailing'),
-        );
-      },
-    );
-  }
-
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }

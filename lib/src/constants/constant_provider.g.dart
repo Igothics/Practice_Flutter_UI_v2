@@ -6,11 +6,11 @@ part of 'constant_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$constantHash() => r'c749d6e84376b42259ae4900ce2e63319f0b1f20';
+String _$constantHash() => r'b74a2e3e2f5d62ef5e1fa01aa53f05a88e8b90d1';
 
 /// See also [constant].
 @ProviderFor(constant)
-final constantProvider = AutoDisposeProvider<Constant>.internal(
+final constantProvider = Provider<Constant>.internal(
   constant,
   name: r'constantProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final constantProvider = AutoDisposeProvider<Constant>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef ConstantRef = AutoDisposeProviderRef<Constant>;
+typedef ConstantRef = ProviderRef<Constant>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter
