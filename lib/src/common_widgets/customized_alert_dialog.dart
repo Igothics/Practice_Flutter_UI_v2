@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:practice_food_delivery/src/common_provider/global_key_provider.dart';
-import 'package:practice_food_delivery/src/common_provider/item_size_provider.dart';
 import 'package:practice_food_delivery/src/common_use_hook/use_size_define.dart';
 
 class CustomizedAlertDialog extends HookConsumerWidget {
@@ -93,15 +92,18 @@ class CustomizedAlertDialog extends HookConsumerWidget {
     );
   }
 
-  static const targetKey = 'dialog';
+  static const recordKey = 'dialog';
   static const iconDistance = 104;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
-    final dialogKey = ref.watch(globalKeyProvider(targetKey));
-    useSizeDefine(ref.read(autoDisposeSizeProvider(targetKey).notifier), targetKey: dialogKey, trackKey: targetKey);
-    final height = ref.watch(autoDisposeSizeProvider(targetKey)).height;//because of auto dispose;
+    final targetGlobalKey = ref.watch(globalKeyProvider(recordKey));
+    final targetSize = useSizeDefine(ref,
+      targetGlobalKey: targetGlobalKey,
+      targetStringKey: recordKey,
+    );
+    final height = targetSize.height;
 
     return Stack(
       children: [
@@ -114,7 +116,7 @@ class CustomizedAlertDialog extends HookConsumerWidget {
           contentTextStyle: textTheme.bodyMedium,
           title: Center(child: title!),
           content: SizedBox(
-              key: dialogKey,
+              key: targetGlobalKey,
               child: content,
           ),
           actions: actions,

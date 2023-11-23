@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:practice_food_delivery/src/common_provider/page_bucket_provider.dart';
-import 'package:practice_food_delivery/src/features/authentication/application/auth_provider.dart';
+import 'package:practice_food_delivery/src/features/authentication/application/auth_serviced_provider.dart';
 
 class StoredGridView extends HookConsumerWidget {
   const StoredGridView({
@@ -22,7 +22,7 @@ class StoredGridView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authProvider).currentUser;
+    final user = ref.watch(authServiceProvider).currentUser;
     final pageBucket = ref.watch(pageBucketProvider);
 
     return Padding(

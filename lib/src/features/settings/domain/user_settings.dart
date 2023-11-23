@@ -14,8 +14,6 @@ class UserSettings with _$UserSettings {
     @ColorConverter() required Color seedColor,
   }) = _UserSettings;
 
-
-
   factory UserSettings.fromJson(Map<String, dynamic> json) =>
       _$UserSettingsFromJson(json);
 }

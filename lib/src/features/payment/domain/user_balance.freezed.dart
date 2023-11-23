@@ -15,16 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 UserBalance _$UserBalanceFromJson(Map<String, dynamic> json) {
-  switch (json['runtimeType']) {
-    case 'default':
-      return _UserBalance.fromJson(json);
-    case 'zero':
-      return _UserBalanceZero.fromJson(json);
-
-    default:
-      throw CheckedFromJsonException(json, 'runtimeType', 'UserBalance',
-          'Invalid union type "${json['runtimeType']}"!');
-  }
+  return _UserBalance.fromJson(json);
 }
 
 /// @nodoc
@@ -34,56 +25,7 @@ mixin _$UserBalance {
   DateTime? get createAt => throw _privateConstructorUsedError;
   DateTime? get updateAt => throw _privateConstructorUsedError;
   List<Transfer> get transferLog => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)
-        $default, {
-    required TResult Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)
-        zero,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)?
-        $default, {
-    TResult? Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)?
-        zero,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)?
-        $default, {
-    TResult Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)?
-        zero,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_UserBalance value) $default, {
-    required TResult Function(_UserBalanceZero value) zero,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_UserBalance value)? $default, {
-    TResult? Function(_UserBalanceZero value)? zero,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_UserBalance value)? $default, {
-    TResult Function(_UserBalanceZero value)? zero,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $UserBalanceCopyWith<UserBalance> get copyWith =>
@@ -215,10 +157,8 @@ class _$UserBalanceImpl with DiagnosticableTreeMixin implements _UserBalance {
       required this.balance,
       required this.createAt,
       required this.updateAt,
-      required final List<Transfer> transferLog,
-      final String? $type})
-      : _transferLog = transferLog,
-        $type = $type ?? 'default';
+      required final List<Transfer> transferLog})
+      : _transferLog = transferLog;
 
   factory _$UserBalanceImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserBalanceImplFromJson(json);
@@ -238,9 +178,6 @@ class _$UserBalanceImpl with DiagnosticableTreeMixin implements _UserBalance {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_transferLog);
   }
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -286,80 +223,6 @@ class _$UserBalanceImpl with DiagnosticableTreeMixin implements _UserBalance {
       __$$UserBalanceImplCopyWithImpl<_$UserBalanceImpl>(this, _$identity);
 
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)
-        $default, {
-    required TResult Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)
-        zero,
-  }) {
-    return $default(id, balance, createAt, updateAt, transferLog);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)?
-        $default, {
-    TResult? Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)?
-        zero,
-  }) {
-    return $default?.call(id, balance, createAt, updateAt, transferLog);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)?
-        $default, {
-    TResult Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)?
-        zero,
-    required TResult orElse(),
-  }) {
-    if ($default != null) {
-      return $default(id, balance, createAt, updateAt, transferLog);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_UserBalance value) $default, {
-    required TResult Function(_UserBalanceZero value) zero,
-  }) {
-    return $default(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_UserBalance value)? $default, {
-    TResult? Function(_UserBalanceZero value)? zero,
-  }) {
-    return $default?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_UserBalance value)? $default, {
-    TResult Function(_UserBalanceZero value)? zero,
-    required TResult orElse(),
-  }) {
-    if ($default != null) {
-      return $default(this);
-    }
-    return orElse();
-  }
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$UserBalanceImplToJson(
       this,
@@ -391,259 +254,5 @@ abstract class _UserBalance implements UserBalance {
   @override
   @JsonKey(ignore: true)
   _$$UserBalanceImplCopyWith<_$UserBalanceImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$UserBalanceZeroImplCopyWith<$Res>
-    implements $UserBalanceCopyWith<$Res> {
-  factory _$$UserBalanceZeroImplCopyWith(_$UserBalanceZeroImpl value,
-          $Res Function(_$UserBalanceZeroImpl) then) =
-      __$$UserBalanceZeroImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {int id,
-      double balance,
-      DateTime? createAt,
-      DateTime? updateAt,
-      List<Transfer> transferLog});
-}
-
-/// @nodoc
-class __$$UserBalanceZeroImplCopyWithImpl<$Res>
-    extends _$UserBalanceCopyWithImpl<$Res, _$UserBalanceZeroImpl>
-    implements _$$UserBalanceZeroImplCopyWith<$Res> {
-  __$$UserBalanceZeroImplCopyWithImpl(
-      _$UserBalanceZeroImpl _value, $Res Function(_$UserBalanceZeroImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? balance = null,
-    Object? createAt = freezed,
-    Object? updateAt = freezed,
-    Object? transferLog = null,
-  }) {
-    return _then(_$UserBalanceZeroImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      balance: null == balance
-          ? _value.balance
-          : balance // ignore: cast_nullable_to_non_nullable
-              as double,
-      createAt: freezed == createAt
-          ? _value.createAt
-          : createAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updateAt: freezed == updateAt
-          ? _value.updateAt
-          : updateAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      transferLog: null == transferLog
-          ? _value._transferLog
-          : transferLog // ignore: cast_nullable_to_non_nullable
-              as List<Transfer>,
-    ));
-  }
-}
-
-/// @nodoc
-
-@JsonSerializable(explicitToJson: true)
-class _$UserBalanceZeroImpl
-    with DiagnosticableTreeMixin
-    implements _UserBalanceZero {
-  const _$UserBalanceZeroImpl(
-      {this.id = 0,
-      this.balance = 0.0,
-      this.createAt = null,
-      this.updateAt = null,
-      final List<Transfer> transferLog = const [],
-      final String? $type})
-      : _transferLog = transferLog,
-        $type = $type ?? 'zero';
-
-  factory _$UserBalanceZeroImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserBalanceZeroImplFromJson(json);
-
-  @override
-  @JsonKey()
-  final int id;
-  @override
-  @JsonKey()
-  final double balance;
-  @override
-  @JsonKey()
-  final DateTime? createAt;
-  @override
-  @JsonKey()
-  final DateTime? updateAt;
-  final List<Transfer> _transferLog;
-  @override
-  @JsonKey()
-  List<Transfer> get transferLog {
-    if (_transferLog is EqualUnmodifiableListView) return _transferLog;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_transferLog);
-  }
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserBalance.zero(id: $id, balance: $balance, createAt: $createAt, updateAt: $updateAt, transferLog: $transferLog)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'UserBalance.zero'))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('balance', balance))
-      ..add(DiagnosticsProperty('createAt', createAt))
-      ..add(DiagnosticsProperty('updateAt', updateAt))
-      ..add(DiagnosticsProperty('transferLog', transferLog));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UserBalanceZeroImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.balance, balance) || other.balance == balance) &&
-            (identical(other.createAt, createAt) ||
-                other.createAt == createAt) &&
-            (identical(other.updateAt, updateAt) ||
-                other.updateAt == updateAt) &&
-            const DeepCollectionEquality()
-                .equals(other._transferLog, _transferLog));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, balance, createAt, updateAt,
-      const DeepCollectionEquality().hash(_transferLog));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UserBalanceZeroImplCopyWith<_$UserBalanceZeroImpl> get copyWith =>
-      __$$UserBalanceZeroImplCopyWithImpl<_$UserBalanceZeroImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)
-        $default, {
-    required TResult Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)
-        zero,
-  }) {
-    return zero(id, balance, createAt, updateAt, transferLog);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)?
-        $default, {
-    TResult? Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)?
-        zero,
-  }) {
-    return zero?.call(id, balance, createAt, updateAt, transferLog);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)?
-        $default, {
-    TResult Function(int id, double balance, DateTime? createAt,
-            DateTime? updateAt, List<Transfer> transferLog)?
-        zero,
-    required TResult orElse(),
-  }) {
-    if (zero != null) {
-      return zero(id, balance, createAt, updateAt, transferLog);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_UserBalance value) $default, {
-    required TResult Function(_UserBalanceZero value) zero,
-  }) {
-    return zero(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_UserBalance value)? $default, {
-    TResult? Function(_UserBalanceZero value)? zero,
-  }) {
-    return zero?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_UserBalance value)? $default, {
-    TResult Function(_UserBalanceZero value)? zero,
-    required TResult orElse(),
-  }) {
-    if (zero != null) {
-      return zero(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$UserBalanceZeroImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _UserBalanceZero implements UserBalance {
-  const factory _UserBalanceZero(
-      {final int id,
-      final double balance,
-      final DateTime? createAt,
-      final DateTime? updateAt,
-      final List<Transfer> transferLog}) = _$UserBalanceZeroImpl;
-
-  factory _UserBalanceZero.fromJson(Map<String, dynamic> json) =
-      _$UserBalanceZeroImpl.fromJson;
-
-  @override
-  int get id;
-  @override
-  double get balance;
-  @override
-  DateTime? get createAt;
-  @override
-  DateTime? get updateAt;
-  @override
-  List<Transfer> get transferLog;
-  @override
-  @JsonKey(ignore: true)
-  _$$UserBalanceZeroImplCopyWith<_$UserBalanceZeroImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

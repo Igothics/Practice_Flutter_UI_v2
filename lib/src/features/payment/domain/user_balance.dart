@@ -16,15 +16,6 @@ class UserBalance with _$UserBalance {
     required List<Transfer> transferLog,
   }) = _UserBalance;
 
-  @JsonSerializable(explicitToJson: true)
-  const factory UserBalance.zero({
-    @Default(0) int id,
-    @Default(0.0) double balance,
-    @Default(null) DateTime? createAt,
-    @Default(null) DateTime? updateAt,
-    @Default([]) List<Transfer> transferLog,
-  }) = _UserBalanceZero;
-
   factory UserBalance.fromJson(Map<String, dynamic> json) =>
       _$UserBalanceFromJson(json);
 }

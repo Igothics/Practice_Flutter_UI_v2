@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:practice_food_delivery/src/features/authentication/application/auth_provider.dart';
-import 'package:practice_food_delivery/src/features/cart/presentation/cart_provider.dart';
-import 'package:practice_food_delivery/src/features/home/domain/restaurant.dart';
+import 'package:practice_food_delivery/src/features/authentication/application/auth_serviced_provider.dart';
+import 'package:practice_food_delivery/src/features/cart/application/cart_service_provider.dart';
+import 'package:practice_food_delivery/src/features/restaurant_view/domain/restaurant.dart';
 import 'package:practice_food_delivery/src/features/orders_history/domain/order.dart';
-import 'package:practice_food_delivery/src/features/restaurants/domain/food.dart';
+import 'package:practice_food_delivery/src/features/restaurant_view/domain/food.dart';
 class AddToCartButton extends HookConsumerWidget {
   const AddToCartButton({super.key, required this.newOrder, this.iconSize,});
   final Order newOrder;
@@ -28,8 +28,8 @@ class AddToCartButton extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authProvider).currentUser;
-    final cartController = ref.read(cartProvider(user?.id).notifier);
+    final user = ref.watch(authServiceProvider).currentUser;
+    final cartController = ref.read(cartServiceProvider(user?.id).notifier);
 
     return IconButton.filledTonal(
       iconSize: iconSize,

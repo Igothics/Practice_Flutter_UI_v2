@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 class SlideTransitionPage extends CustomTransitionPage<void> {
   SlideTransitionPage({
-    required LocalKey super.key,
+    required super.key,
     required super.child,
     this.offset = const Offset(1.0, 0.0),
     super.transitionDuration,

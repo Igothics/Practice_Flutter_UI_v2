@@ -1,36 +1,34 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:practice_food_delivery/src/common_provider/global_key_provider.dart';
-import 'package:practice_food_delivery/src/features/authentication/application/auth_provider.dart';
-import 'package:practice_food_delivery/src/features/authentication/presentation/login_page.dart';
-import 'package:practice_food_delivery/src/features/cart/presentation/cart_page.dart';
-import 'package:practice_food_delivery/src/features/coupons/presentation/available_coupons_page.dart';
-import 'package:practice_food_delivery/src/features/coupons/presentation/scaffold_with_bottom_navigation_bar.dart';
-import 'package:practice_food_delivery/src/features/coupons/presentation/unavailable_coupons_page.dart';
-import 'package:practice_food_delivery/src/features/favorites/presentation/favorites_page.dart';
-import 'package:practice_food_delivery/src/features/home/presentation/home_page.dart';
-import 'package:practice_food_delivery/src/features/navigation/presentation/scaffold_with_drawer.dart';
-import 'package:practice_food_delivery/src/features/restaurants/presentation/restaurant_page.dart';
+import 'package:practice_food_delivery/src/features/authentication/application/auth_serviced_provider.dart';
+import 'package:practice_food_delivery/src/features/authentication/presentation/screens/login_page.dart';
+import 'package:practice_food_delivery/src/features/cart/presentation/screens/cart_page.dart';
+import 'package:practice_food_delivery/src/features/coupon_box/presentation/screens/available_coupons_page.dart';
+import 'package:practice_food_delivery/src/features/coupon_box/presentation/widgets/scaffold_with_bottom_navigation_bar.dart';
+import 'package:practice_food_delivery/src/features/coupon_box/presentation/screens/unavailable_coupons_page.dart';
+import 'package:practice_food_delivery/src/features/favorites/presentation/screens/favorites_page.dart';
+import 'package:practice_food_delivery/src/features/home_view/presentation/screens/home_page.dart';
+import 'package:practice_food_delivery/src/features/navigation/presentation/widgets/scaffold_with_drawer.dart';
+import 'package:practice_food_delivery/src/features/payment/presentation/screens/transfer_detail_page.dart';
+import 'package:practice_food_delivery/src/features/restaurant_view/presentation/screens/restaurant_page.dart';
 import 'package:practice_food_delivery/src/routing/slide_transition_page.dart';
-import 'package:practice_food_delivery/src/features/orders_history/presentation/orders_history_page.dart';
-import 'package:practice_food_delivery/src/features/payment/presentation/payment_page.dart';
-import 'package:practice_food_delivery/src/features/payment/presentation/transfer_detail_page.dart';
-import 'package:practice_food_delivery/src/features/profile/presentation/user_profile_page.dart';
-import 'package:practice_food_delivery/src/features/settings/presentation/settings_page.dart';
-import 'package:practice_food_delivery/src/utils/test_color_page.dart';
+import 'package:practice_food_delivery/src/features/orders_history/presentation/screens/orders_history_page.dart';
+import 'package:practice_food_delivery/src/features/payment/presentation/screens/payment_page.dart';
+import 'package:practice_food_delivery/src/features/profile/presentation/screens/user_profile_page.dart';
+import 'package:practice_food_delivery/src/features/settings/presentation/screens/settings_page.dart';
+import 'package:practice_food_delivery/test_color_page.dart';
 
-final routerProvider = Provider<GoRouter>((ref) {
+final routerProvider = AutoDisposeProvider<GoRouter>((ref) {
     //Please ensure that there is only include immutable 1 time created provider except auth, because it's main listenable
     //RouterProvider's re-created will cause big error. It should only be triggered to re-create by its only listenable
-    final auth = ref.watch(authProvider);
-    final rootNavigatorKey = ref.watch(globalKeyNavigatorStateProvider('root'));
-    final shellDrawerKey = ref.watch(globalKeyNavigatorStateProvider('shell_drawer'));
-    final shellBottomBarKey = ref.watch(globalKeyNavigatorStateProvider('shell_bottom_bar'));
-    log('[Router provider]: initial or reset by auth');
+    final auth = ref.watch(authServiceProvider);
+    final rootNavigatorKey = ref.watch(navigatorStateGlobalKeyProvider('root'));
+    final shellDrawerKey = ref.watch(navigatorStateGlobalKeyProvider('shell_drawer'));
+    final shellBottomBarKey = ref.watch(navigatorStateGlobalKeyProvider('shell_bottom_bar'));
 
     return GoRouter(
       navigatorKey: rootNavigatorKey,
@@ -66,7 +64,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                   pageBuilder: (_, state) => SlideTransitionPage(
                     key: state.pageKey,
                     offset: const Offset(0.0, 0.5),
-                    child: RestaurantPage(id: state.pathParameters['resId']!),
+                    child: const RestaurantPage(),
                   ),
                 ),
                 GoRoute(
@@ -125,16 +123,16 @@ final routerProvider = Provider<GoRouter>((ref) {
             ),
             ShellRoute(
               navigatorKey: shellBottomBarKey,
-              builder: (_, __, child){
-                return ScaffoldWithBottomNavigationBar(
-                  child: child,
+              pageBuilder: (_, state, child){
+                return SlideTransitionPage(
+                  key: state.pageKey,
+                  child: ScaffoldWithBottomNavigationBar(child: child,),
                 );
               },
               routes: [
                 GoRoute(
                   path: '/coupons/available',
                   pageBuilder: (_, state) => SlideTransitionPage(
-                    offset: const Offset(-1.0, 0.0),
                     key: state.pageKey,
                     child: const AvailableCouponsPage(),
                   ),
@@ -175,4 +173,5 @@ final routerProvider = Provider<GoRouter>((ref) {
       refreshListenable: auth,
     );
   },
+  name: 'router',
 );

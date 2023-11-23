@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:practice_food_delivery/src/common_provider/global_key_provider.dart';
-import 'package:practice_food_delivery/src/common_provider/item_size_provider.dart';
 import 'package:practice_food_delivery/src/common_use_hook/use_size_define.dart';
-import 'package:practice_food_delivery/src/theme/theme_provider.dart';
+import 'package:practice_food_delivery/src/utils/utils.dart';
 
 class CouponCard extends HookConsumerWidget {
   const CouponCard({
@@ -46,29 +45,21 @@ class CouponCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeModeProvider);
-    final greyColor = switch(themeMode){
-      ThemeMode.light => Colors.grey.shade400,
-      ThemeMode.dark => Colors.grey.shade800,
-      _ => Colors.grey.shade500,
-    };
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final defaultTitleTextStyle = textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface,);
     final defaultSubtitleTextStyle = textTheme.bodySmall?.copyWith(color: colorScheme.onSurfaceVariant);
-    final colorFilter = ColorFilter.mode(enabled ? Colors.transparent : greyColor, BlendMode.color);
     final textButtonStyle = TextButton.styleFrom(
       padding: EdgeInsets.zero,
       shape: const RoundedRectangleBorder(),
     );
     final elevation = selected ? 10.0 : 0.5;
-    final infoKey = ref.watch(globalKeyProvider('$cardId:info'));
-    useSizeDefine(
-      ref.read(autoDisposeSizeProvider('$cardId:info').notifier),
-      targetKey: infoKey,
-      trackKey: '$cardId:info',
+    final cardGlobalKey = ref.watch(globalKeyProvider(cardId));
+    final cardSize = useSizeDefine(ref,
+      targetGlobalKey: cardGlobalKey,
+      targetStringKey: cardId,
+      // no margin involved here because we're using fake margin. It's not Card's margin property
     );
-    final infoSize = ref.watch(autoDisposeSizeProvider('$cardId:info'));
 
     return Padding(
       padding: margin ?? EdgeInsets.zero,
@@ -77,63 +68,56 @@ class CouponCard extends HookConsumerWidget {
           Expanded(
             flex: iconFlex + infoFlex,
             child: Card(
+              key: cardGlobalKey,
               clipBehavior: Clip.antiAlias,
               margin: EdgeInsets.zero,
               elevation: elevation,
-              child: ColorFiltered(
-                colorFilter: colorFilter,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    shape: const RoundedRectangleBorder(),
-                    padding: EdgeInsets.zero,
-                  ),
-                  onPressed: !enabled ? null : onPressed,
-                  child: Stack(
-                    children: [
-                      const Divider(color: Colors.transparent,),// trick to make color expand full card
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: iconFlex,
-                            child: SizedBox(
-                              height: infoSize.height,
-                              child: ColoredBox(
-                                color: colorScheme.primaryContainer,
-                                child: icon,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: infoFlex,
-                            child: Padding(
-                              key: infoKey,
-                              padding: infoPadding ?? EdgeInsets.zero,
-                              child: Column(
-                                mainAxisAlignment: infoMainAxisAlignment,
-                                crossAxisAlignment: infoCrossAxisAlignment,
-                                children: [
-                                  DefaultTextStyle(
-                                    style: defaultTitleTextStyle!.merge(titleTextStyle),
-                                    child: Column(
-                                      crossAxisAlignment: infoCrossAxisAlignment,
-                                      children: titles ?? [],
-                                    ),
-                                  ),
-                                  DefaultTextStyle(
-                                    style: defaultSubtitleTextStyle!.merge(subtitleTextStyle),
-                                    child: Column(
-                                      crossAxisAlignment: infoCrossAxisAlignment,
-                                      children: subtitles ?? [],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+              color: disableColor(color: colorScheme.background, fraction: 0.5, disabled: !enabled),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  shape: const RoundedRectangleBorder(),
+                  padding: EdgeInsets.zero,
+                ),
+                onPressed: !enabled ? null : onPressed,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: iconFlex,
+                      child: SizedBox(
+                        height: cardSize.height,
+                        child: ColoredBox(
+                          color: disableColor(color: colorScheme.primaryContainer, disabled: !enabled),
+                          child: icon,
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Expanded(
+                      flex: infoFlex,
+                      child: Padding(
+                        padding: infoPadding ?? EdgeInsets.zero,
+                        child: Column(
+                          mainAxisAlignment: infoMainAxisAlignment,
+                          crossAxisAlignment: infoCrossAxisAlignment,
+                          children: [
+                            DefaultTextStyle(
+                              style: defaultTitleTextStyle!.merge(titleTextStyle),
+                              child: Column(
+                                crossAxisAlignment: infoCrossAxisAlignment,
+                                children: titles ?? [],
+                              ),
+                            ),
+                            DefaultTextStyle(
+                              style: defaultSubtitleTextStyle!.merge(subtitleTextStyle),
+                              child: Column(
+                                crossAxisAlignment: infoCrossAxisAlignment,
+                                children: subtitles ?? [],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -141,20 +125,18 @@ class CouponCard extends HookConsumerWidget {
           Expanded(
             flex: trailingFlex,
             child: SizedBox(
-              height: infoSize.height,
+              height: cardSize.height,
               child: Card(
                 clipBehavior: Clip.antiAlias,
                 margin: EdgeInsets.zero,
                 elevation: elevation,
-                child: ColorFiltered(
-                  colorFilter: colorFilter,
-                  child: TextButton(
-                    style: textButtonStyle,
-                    onPressed: !enabled ? null : onPressed,
-                    child: DefaultTextStyle(
-                      style: defaultSubtitleTextStyle,
-                      child: trailing ?? const SizedBox(),
-                    ),
+                color: disableColor(color: colorScheme.background, fraction: 0.5, disabled: !enabled),
+                child: TextButton(
+                  style: textButtonStyle,
+                  onPressed: !enabled ? null : onPressed,
+                  child: DefaultTextStyle(
+                    style: defaultSubtitleTextStyle,
+                    child: trailing ?? const SizedBox(),
                   ),
                 ),
               ),

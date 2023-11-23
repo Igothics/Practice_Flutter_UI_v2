@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:practice_food_delivery/src/database/database_repository_provider.dart';
-import 'package:practice_food_delivery/src/features/authentication/application/auth_provider.dart';
-import 'package:practice_food_delivery/src/features/favorites/presentation/user_favorites_provider.dart';
+import 'package:practice_food_delivery/src/features/favorites/data/user_favorites_repository_provider.dart';
+import 'package:practice_food_delivery/src/features/favorites/presentation/providers/user_favorites_provider.dart';
 class FavoriteIconButton extends HookConsumerWidget {
   const FavoriteIconButton({super.key, required this.restaurantId, this.size, this.color = Colors.red});
   final int restaurantId;
@@ -13,12 +12,11 @@ class FavoriteIconButton extends HookConsumerWidget {
   static const favoriteBorderIcon = Icon(Icons.favorite_border,);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final database = ref.watch(databaseRepositoryProvider);
-    final favoriteRecordId = ref.watch(authProvider).currentUser?.uid;
-    final favorites = ref.watch(userFavoritesProvider(favoriteRecordId!));
+    final userFavoritesRepository = ref.watch(userFavoritesRepositoryProvider);
+    final favorites = ref.watch(userFavoritesProvider);
 
     return IconButton(
-      onPressed: () => database.requireValue.updateFavorites(favoriteRecordId, restaurantId),
+      onPressed: () => userFavoritesRepository.updateFavorites(restaurantId),
       iconSize: size,
       color: color,
       icon: favorites.when(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:practice_food_delivery/src/features/cart/presentation/cart_items_count_provider.dart';
+import 'package:practice_food_delivery/src/features/authentication/application/auth_serviced_provider.dart';
+import 'package:practice_food_delivery/src/features/cart/application/cart_service_provider.dart';
 
 class CartIcon extends HookConsumerWidget {
   const CartIcon({
@@ -17,7 +18,8 @@ class CartIcon extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
-    final cartItemsCount = ref.watch(cartItemsCountProvider);
+    final userId = ref.watch(authServiceProvider).currentUser?.id;
+    final cartItemsCount = ref.watch(cartServiceProvider(userId)).length;
     final fontSize = badgeRadius != null ? badgeRadius! * 1.3 : null;
 
     return Stack(

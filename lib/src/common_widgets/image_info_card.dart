@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:practice_food_delivery/src/common_provider/global_key_provider.dart';
-import 'package:practice_food_delivery/src/common_provider/item_size_provider.dart';
 import 'package:practice_food_delivery/src/common_use_hook/use_size_define.dart';
 import 'package:practice_food_delivery/src/common_widgets/hero_image.dart';
 import 'package:practice_food_delivery/src/utils/utils.dart';
@@ -10,13 +9,13 @@ class ImageInfoCard extends HookConsumerWidget{
   const ImageInfoCard({
     super.key,
     required this.imageUrl,
-    required this.cardId,
+    required this.cardKey,
     this.cardWith,
     this.cardHeight,
     this.enabled = true,
     this.useGradient = false,
     this.gradientStops,
-    this.heroTag,
+    this.imageHeroTag,
     this.margin,
     this.infoPadding,
     this.onCardTapUp,
@@ -39,12 +38,12 @@ class ImageInfoCard extends HookConsumerWidget{
     this.onRemoveButtonPressed,
   });
 
-  final String cardId;
+  final String cardKey;
   final double? cardWith;
   final double? cardHeight;
   final bool enabled;
   final String imageUrl;
-  final Object? heroTag;
+  final Object? imageHeroTag;
   final bool useGradient;
   final List<double>? gradientStops;
   final EdgeInsets? margin;
@@ -79,27 +78,18 @@ class ImageInfoCard extends HookConsumerWidget{
       color: colorScheme.onSurfaceVariant,
       overflow: TextOverflow.ellipsis,
     );
-    final cardKey = ref.watch(globalKeyProvider(cardId));
-    useSizeDefine(
-        ref.read(autoDisposeSizeProvider(cardId).notifier),
-        targetKey: cardKey,
-        trackKey: cardId,
-    );
-    // because of autoDispose!? We can't use returned size above
-    final cardSize = ref.watch(autoDisposeSizeProvider(cardId));
 
-    final infoKey = ref.watch(globalKeyProvider('$cardId:info'));
-    useSizeDefine(
-      ref.read(autoDisposeSizeProvider('$cardId:info').notifier),
-      targetKey: infoKey,
-      trackKey: '$cardId:info',
+    final cardGlobalKey = ref.watch(globalKeyProvider(cardKey));
+    final cardSize = useSizeDefine(ref,
+      targetGlobalKey: cardGlobalKey,
+      targetStringKey: cardKey,
+      margin: margin,
     );
-    final infoSize = ref.watch(autoDisposeSizeProvider('$cardId:info'));
 
     final (double imageWith, double infoWith) = flexToSize(
-        firstFlex: imageFlex,
-        secondFlex: infoFlex,
-        totalSize: cardSize.width,
+      firstFlex: imageFlex,
+      secondFlex: infoFlex,
+      totalSize: cardSize.width,
     );
     final isStretched = infoFlex == null || infoFlex == null;
 
@@ -109,65 +99,66 @@ class ImageInfoCard extends HookConsumerWidget{
           width: cardWith,
           height: cardHeight,
           child: Card(
-            key: cardKey,
+            key: cardGlobalKey,
             clipBehavior: Clip.antiAlias,
             margin: margin ?? EdgeInsets.zero,
-            child: ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                  enabled ? Colors.transparent : Colors.grey.shade700,
-                  BlendMode.color),
-              child: AbsorbPointer(
-                absorbing: !enabled,
-                child: InkWell(
-                  onTapUp: onCardTapUp,
-                  child: Stack(
-                    children: [
-                      HeroImage(
+            color: disableColor(color: colorScheme.background, fraction: 0.5, disabled: !enabled),
+            child: AbsorbPointer(
+              absorbing: !enabled,
+              child: InkWell(
+                onTapUp: onCardTapUp,
+                child: Stack(
+                  children: [
+                    ColorFiltered(
+                      colorFilter: ColorFilter.mode(
+                        enabled ? Colors.transparent : Colors.grey.shade700,
+                        BlendMode.color,
+                      ),
+                      child: HeroImage(
                         imageUrl,
-                        heroTag: heroTag ?? cardKey,
+                        heroTag: imageHeroTag ?? cardKey,
                         opacity: onCardTapUp != null ? 0.85 : 1.0,
                         width: imageWith,
-                        height: infoSize.height,
+                        height: cardSize.height,
                         useGradient: useGradient,
                         gradientStops: gradientStops,
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: isStretched ? 0.0 : imageWith + (infoPadding?.left ?? 0.0),
-                        ),
-                        child: SizedBox(
-                          key: infoKey,
-                          width: infoWith,
-                          child: Padding(
-                            padding: infoPadding ?? EdgeInsets.zero,
-                            child: Column(
-                              mainAxisAlignment: infoMainAxisAlignment,
-                              crossAxisAlignment: infoCrossAxisAlignment,
-                              children: [
-                                DefaultTextStyle(
-                                    style: defaultTitleTextStyle!.merge(titleTextStyle),
-                                    child: Column(
-                                      crossAxisAlignment: infoCrossAxisAlignment,
-                                      children: titles ?? [],
-                                    ),
-                                ),
-                                DefaultTextStyle(
-                                  style: defaultSubtitleTextStyle!.merge(subtitleTextStyle),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: isStretched ? 0.0 : imageWith,
+                      ),
+                      child: SizedBox(
+                        width: infoWith,
+                        child: Padding(
+                          padding: infoPadding ?? EdgeInsets.zero,
+                          child: Column(
+                            mainAxisAlignment: infoMainAxisAlignment,
+                            crossAxisAlignment: infoCrossAxisAlignment,
+                            children: [
+                              DefaultTextStyle(
+                                  style: defaultTitleTextStyle!.merge(titleTextStyle),
                                   child: Column(
                                     crossAxisAlignment: infoCrossAxisAlignment,
-                                    children: subtitles ?? [],
+                                    children: titles ?? [],
                                   ),
+                              ),
+                              DefaultTextStyle(
+                                style: defaultSubtitleTextStyle!.merge(subtitleTextStyle),
+                                child: Column(
+                                  crossAxisAlignment: infoCrossAxisAlignment,
+                                  children: subtitles ?? [],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      // trick to maximize column width
-                      const Divider(color: Colors.transparent),
-                      _buildTrailing(cardSize, infoSize),
-                    ],
-                  ),
+                    ),
+                    //trick to make card expanded full. Remove it cause whole card disappear
+                    const Divider(color: Colors.transparent,),
+                    _buildTrailing(cardSize),
+                  ],
                 ),
               ),
             ),
@@ -178,9 +169,9 @@ class ImageInfoCard extends HookConsumerWidget{
       ],
     );
   }
-  Widget _buildTrailing(Size cardSize, Size infoSize) => SizedBox(
+  Widget _buildTrailing(Size cardSize) => SizedBox(
     width: cardSize.width,
-    height: infoSize.height,
+    height: cardSize.height,
     child: Align(
       alignment: trailingAlignment ?? Alignment.topRight,
       child: trailing,

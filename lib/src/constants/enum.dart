@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+enum CouponStatus{valid, invalid, unselected}
 enum CouponType{percentage, fixValue, freeCharge}
 enum FeeType implements Comparable<FeeType>{
   orderPrice(0, 'order price', Icons.fastfood_outlined,),

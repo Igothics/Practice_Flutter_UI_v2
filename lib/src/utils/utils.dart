@@ -6,8 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:practice_food_delivery/src/constants/enum.dart';
 import 'package:practice_food_delivery/src/constants/regex.dart';
-import 'package:practice_food_delivery/src/features/coupons/domain/coupon.dart';
-import 'package:practice_food_delivery/src/features/navigation/domain/navigation_drawer_item.dart';
+import 'package:practice_food_delivery/src/features/coupon_box/domain/coupon.dart';
+import 'package:practice_food_delivery/src/features/navigation/domain/drawer_item.dart';
 import 'package:practice_food_delivery/src/features/orders_history/domain/order.dart';
 import 'package:practice_food_delivery/src/features/payment/domain/transfer.dart';
 import 'package:practice_food_delivery/src/utils/extension.dart';
@@ -78,8 +78,8 @@ String getRandomEmail() => _faker.internet.email();
 String getRandomPhoneNumber() => _faker.phoneNumber.phoneNumber(format: '0#########');
 String getRandomRestaurantName() => _faker.company.companyName();
 String getRandomAddress() => '${randomInt(100)} ${_faker.address.streetName()}, ${_faker.address.cityName()}';
-Duration getRandomDuration([int years = 1]) => Duration(
-  days: randomInt(365 * years),
+Duration getRandomDuration() => Duration(
+  days: randomInt(365),
   hours: randomInt(12),
   minutes: randomInt(60),
   seconds: randomInt(60),
@@ -91,23 +91,18 @@ DateTime noHms(DateTime dateTime) => dateTime.copyWith(
   millisecond: 0,
   microsecond: 0,
 );
-DateTime getRandomBackwardDate({int years = 1}) => DateTime.now().subtract(getRandomDuration(years),);
-DateTime getRandomForwardDate({int years = 1}) => DateTime.now().add(getRandomDuration(years),);
-DateTime getRandomBirthday() => noHms(getRandomBackwardDate(years: randomInt(35, min: 30,),),);
-
+DateTime getDateTimeNow() => DateTime.now();
+int getCurrentYear() => getDateTimeNow().year;
+DateTime getRandomBackwardDate({int yearOffset = 0}) => getDateTimeNow()
+    .copyWith(year: getCurrentYear() - yearOffset)
+    .subtract(getRandomDuration());
+DateTime getRandomForwardDate({int yearOffset = 0}) => getDateTimeNow()
+    .copyWith(year: getCurrentYear() + yearOffset)
+    .add(getRandomDuration());
+DateTime getRandomBirthday() => noHms(getRandomBackwardDate(yearOffset: randomInt(40, min: 30)));
 String formatRecordDate(DateTime date) => _recordDateFormat.format(date);
 String formatBirthDate(DateTime date) => _birthDateFormat.format(date);
 String formatDetailDateTime(DateTime date) => _detailDateFormat.format(date);
-String formatPhoneNumber(String value) {
-  String result = value.replaceAll(RegExp(Regex.spaces), '');
-  if (result.characters.length > 3) {
-    result = result.replaceRange(3, 3, ' ');
-  }
-  if (result.characters.length > 7) {
-    result = result.replaceRange(7, 7, ' ');
-  }
-  return result;
-}
 
 List<T> getRandomList<T>(List<T> list, {bool shuffle = true}) {
   List<T> result = [];
@@ -125,13 +120,16 @@ List<E> reindex<E>(List<E> list, {int offset = 0}) {
   return switch(list){
     List<Order> list => list.mapWithIndex<Order>((i, e) => e.copyWith(id: i + offset),) as Iterable<E>,
     List<Transfer> list => list.mapWithIndex<Transfer>((i, e) => e.copyWith(id: i + offset),) as Iterable<E>,
-    List<NavigationDrawerItem> list => list.mapWithIndex<NavigationDrawerItem>((i, e) => e.copyWith(id: i + offset),) as Iterable<E>,
+    List<DrawerItem> list => list.mapWithIndex<DrawerItem>((i, e) => e.copyWith(id: i + offset),) as Iterable<E>,
     List<Coupon> list => list.mapWithIndex<Coupon>((i, e) => e.copyWith(id: i + offset),) as Iterable<E>,
     _ => list,
   }.toList();
 }
 
-(double, double) flexToSize({int? firstFlex = 1,int? secondFlex = 1, required double totalSize}) {
+(double, double) flexToSize({int? firstFlex = 1,int? secondFlex = 1, double? totalSize,}) {
+  if (totalSize == null) {
+    return (fixDouble(0.0), fixDouble(0.0));
+  }
   if (firstFlex == null || secondFlex == null) {
     return (fixDouble(totalSize), fixDouble(totalSize));
   }
@@ -143,3 +141,10 @@ List<E> reindex<E>(List<E> list, {int offset = 0}) {
   return (fixDouble(firstSize), fixDouble(secondSize));
 }
 String cleanRedundantSpaces(String value) => value.trim().replaceAll(RegExp(Regex.doubleSpaces), ' ');
+String cleanAllSpaces(String value) => value.replaceAll(' ', '');
+Color disableColor({required Color color, double fraction = 1.0, required bool disabled}) => disabled ? Color.lerp(color, Colors.grey, fraction)! : color;
+String buildCouponTitles(Coupon coupon) => switch(coupon){
+  CouponPercentage data => 'Discount ${data.value * 100}% on ${data.feeType.value} up to \$${data.maxDiscount}\nWhen orders reach \$${data.minimumSpend}',
+  CouponFixValue data => 'Discount \$${data.value} on ${data.feeType.value}\nWhen orders reach \$${data.minimumSpend}',
+  CouponFreeCharge data => 'Free charge on ${data.feeType.value}\nWhen orders reach \$${data.minimumSpend}',
+};

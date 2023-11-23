@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:practice_food_delivery/src/common_widgets/one_line_info.dart';
-import 'package:practice_food_delivery/src/features/home/presentation/user_balance_provider.dart';
-import 'package:practice_food_delivery/src/utils/utils.dart';
 
 class InfoCard extends StatelessWidget {
   const InfoCard({
