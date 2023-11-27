@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:practice_food_delivery/src/common_widgets/custom_animation.dart';
 import 'package:practice_food_delivery/src/features/settings/data/user_settings_repository_provider.dart';
 import 'package:practice_food_delivery/src/features/settings/presentation/providers/is_selected_color_provider.dart';
 
@@ -29,29 +31,32 @@ class SeedColorGridBuilder extends HookConsumerWidget {
         final color = _primaries[index];
         final isSelected = ref.watch(isSelectedColorProvider(color.value));
 
-        return Stack(
-          fit: StackFit.expand,
-          children: [
-            Card(
-              clipBehavior: Clip.antiAlias,
-              margin: EdgeInsets.zero,
-              child: ColoredBox(color: color,),
-            ),
-            Transform.scale(
-              scale: checkBoxScale,
-              child: Checkbox(
-                value: isSelected,
-                onChanged: (_) async {
-                  if (!isSelected) {
-                    await userSettingsRepository.updateSeedColor(color);
-                  }
-                },
-                checkColor: Colors.white,
-                activeColor: Colors.transparent,
-                side: BorderSide.none,
+        return CustomAnimation.fadeSlide(
+          delay: 50.ms * index,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Card(
+                clipBehavior: Clip.antiAlias,
+                margin: EdgeInsets.zero,
+                child: ColoredBox(color: color,),
               ),
-            ),
-          ],
+              Transform.scale(
+                scale: checkBoxScale,
+                child: Checkbox(
+                  value: isSelected,
+                  onChanged: (_) async {
+                    if (!isSelected) {
+                      await userSettingsRepository.updateSeedColor(color);
+                    }
+                  },
+                  checkColor: Colors.white,
+                  activeColor: Colors.transparent,
+                  side: BorderSide.none,
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

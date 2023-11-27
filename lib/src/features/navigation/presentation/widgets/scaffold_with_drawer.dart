@@ -20,10 +20,11 @@ class ScaffoldWithDrawer extends HookConsumerWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(title,),
-        actions: !showActions ? null : const [CartIconButton(),],
+        actions: !showActions ? null : [const CartIconButton(),],
       ),
       drawer: const NavigationDrawerBuilder(),
       body: child,
     );
   }
 }
+final cartAnimationControllerProvider = Provider((ref) => null,);

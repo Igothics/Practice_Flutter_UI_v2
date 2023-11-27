@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:practice_food_delivery/src/common_widgets/add_to_cart_icon.dart';
 import 'package:practice_food_delivery/src/features/authentication/application/auth_serviced_provider.dart';
 import 'package:practice_food_delivery/src/features/cart/application/cart_service_provider.dart';
 import 'package:practice_food_delivery/src/features/restaurant_view/domain/restaurant.dart';
@@ -30,11 +32,20 @@ class AddToCartButton extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authServiceProvider).currentUser;
     final cartController = ref.read(cartServiceProvider(user?.id).notifier);
+    final plusIconController = useAnimationController(
+      duration: const Duration(seconds: 1),
+      reverseDuration: const Duration(seconds: 1),
+    );
+    useAnimation(plusIconController);
 
     return IconButton.filledTonal(
       iconSize: iconSize,
-      onPressed: () => cartController.addItemFromOrder(newOrder),
-      icon: const Icon(Icons.add,),
+      onPressed: () {
+        plusIconController.reset();
+        plusIconController.forward();
+        cartController.addItemFromOrder(newOrder);
+      },
+      icon: AddToCartIcon(controller: plusIconController,),
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:practice_food_delivery/src/common_widgets/custom_animation.dart';
 import 'package:practice_food_delivery/src/common_widgets/stored_list_view.dart';
 import 'package:practice_food_delivery/src/constants/enum.dart';
 import 'package:practice_food_delivery/src/features/authentication/application/auth_serviced_provider.dart';
@@ -38,14 +40,18 @@ class CartItemsBuilder extends HookConsumerWidget {
           }
           final item = data[index];
 
-          return CartItemCard(
-            groupKey: '$groupKey-$index',
-            item: item,
-            margin: margin,
-            onCheckBoxChanged: (_)=> cartController.toggleItem(index),
-            onRemoveButtonPressed: () => cartController.removeItem(index),
-            onAddPressed: () => cartController.updateQuantity(index, CartOperation.increase),
-            onSubtractPressed: () => cartController.updateQuantity(index, CartOperation.decrease),
+          return CustomAnimation.fadeSlide(
+            delay: 150.ms * index,
+            direction: SlideAxis.leftToRight,
+            child: CartItemCard(
+              groupKey: '$groupKey-$index',
+              item: item,
+              margin: margin,
+              onCheckBoxChanged: (_)=> cartController.toggleItem(index),
+              onRemoveButtonPressed: () => cartController.removeItem(index),
+              onAddPressed: () => cartController.updateQuantity(index, CartOperation.increase),
+              onSubtractPressed: () => cartController.updateQuantity(index, CartOperation.decrease),
+            ),
           );
         },
     );

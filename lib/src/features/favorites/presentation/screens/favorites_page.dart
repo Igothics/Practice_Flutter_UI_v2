@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:practice_food_delivery/src/common_widgets/count_up_title.dart';
 import 'package:practice_food_delivery/src/common_widgets/standard_title.dart';
 import 'package:practice_food_delivery/src/features/favorites/presentation/providers/favorited_restaurants_provider.dart';
 import 'package:practice_food_delivery/src/features/favorites/presentation/widgets/favorited_restaurants_builder.dart';
@@ -20,8 +21,9 @@ class FavoritesPage extends HookConsumerWidget {
             favoritedRestaurants.when(
               error: (error, _) => const StandardTitle('Error!',),
               loading: () => const StandardTitle('loading...', prefix: 'Total: ',),
-              data: (data) => StandardTitle(
-                '${data.length}',
+              data: (data) => CountUp.title(
+                context,
+                data.length,
                 prefix: 'Total: ',
                 suffix: ' restaurants',
               ),

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:practice_food_delivery/src/common_widgets/custom_animation.dart';
 import 'package:practice_food_delivery/src/common_widgets/stored_list_view.dart';
 import 'package:practice_food_delivery/src/common_widgets/view_more_button.dart';
+import 'package:practice_food_delivery/src/constants/enum.dart';
 import 'package:practice_food_delivery/src/features/home_view/presentation/widgets/recent_order_card.dart';
 import 'package:practice_food_delivery/src/features/orders_history/domain/user_orders.dart';
 
@@ -43,11 +46,15 @@ class RecentOrdersBuilder extends StatelessWidget {
               return const ViewMoreButton(goToLocation: '/orders_history',);
             }
 
-            return RecentOrderCard(
-              groupKey: '$groupKey-$index',
-              order: order,
-              cardWidth: cardWidth,
-              margin: margin,
+            return CustomAnimation.fadeSlide(
+              delay: 200.ms * index,
+              direction: SlideAxis.leftToRight,
+              child: RecentOrderCard(
+                groupKey: '$groupKey-$index',
+                order: order,
+                cardWidth: cardWidth,
+                margin: margin,
+              ),
             );
           },
         );

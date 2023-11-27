@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:practice_food_delivery/src/common_widgets/love_icon.dart';
 import 'package:practice_food_delivery/src/features/favorites/data/user_favorites_repository_provider.dart';
 import 'package:practice_food_delivery/src/features/favorites/presentation/providers/user_favorites_provider.dart';
 class FavoriteIconButton extends HookConsumerWidget {
@@ -8,22 +10,36 @@ class FavoriteIconButton extends HookConsumerWidget {
   final double? size;
   final Color? color;
   static const errorIcon = Icon(Icons.question_mark,);
-  static const favoriteIcon = Icon(Icons.favorite,);
-  static const favoriteBorderIcon = Icon(Icons.favorite_border,);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userFavoritesRepository = ref.watch(userFavoritesRepositoryProvider);
     final favorites = ref.watch(userFavoritesProvider);
+    final favoriteIconController = useAnimationController(
+      duration: const Duration(seconds: 1),
+      reverseDuration: const Duration(seconds: 1),
+    );
+    useAnimation(favoriteIconController);
 
-    return IconButton(
-      onPressed: () => userFavoritesRepository.updateFavorites(restaurantId),
-      iconSize: size,
-      color: color,
-      icon: favorites.when(
-          data: (data) => data.favorites.contains(restaurantId) ? favoriteIcon : favoriteBorderIcon,
-          error: (_, __) => errorIcon,
-          loading: () => const CircularProgressIndicator(),
-      ),
+    return favorites.when(
+      error: (error, _) => errorIcon,
+      loading: () => const CircularProgressIndicator(),
+      data: (data) {
+        final isLoved = data.favorites.contains(restaurantId);
+        if (isLoved) favoriteIconController.forward();
+
+        return IconButton(
+          padding: EdgeInsets.zero,
+          onPressed: (){
+            if (isLoved) {
+              favoriteIconController.reverse();
+            } else {
+              favoriteIconController.forward();
+            }
+            userFavoritesRepository.updateFavorites(restaurantId);
+          },
+          icon: LoveIcon(controller: favoriteIconController,),
+        );
+      },
     );
   }
 }

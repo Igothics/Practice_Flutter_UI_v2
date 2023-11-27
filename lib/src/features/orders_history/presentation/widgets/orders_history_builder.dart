@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:practice_food_delivery/src/common_widgets/custom_animation.dart';
 import 'package:practice_food_delivery/src/common_widgets/stored_list_view.dart';
 import 'package:practice_food_delivery/src/features/orders_history/domain/user_orders.dart';
 import 'package:practice_food_delivery/src/features/orders_history/presentation/widgets/order_history_card.dart';
@@ -33,10 +35,13 @@ class OrdersHistoryBuilder extends HookConsumerWidget {
           itemBuilder: (_, index) {
             final order = orders[index];
 
-            return OrderHistoryCard(
-              groupKey: '$groupKey-$index',
-              order: order,
-              margin: margin,
+            return CustomAnimation.fadeSlide(
+              delay: 200.ms * index,
+              child: OrderHistoryCard(
+                groupKey: '$groupKey-$index',
+                order: order,
+                margin: margin,
+              ),
             );
           },
         );

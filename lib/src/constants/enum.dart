@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+enum SlideAxis {leftToRight, rightToLeft, topToBottom, bottomToTop}
 enum CouponStatus{valid, invalid, unselected}
 enum CouponType{percentage, fixValue, freeCharge}
 enum FeeType implements Comparable<FeeType>{

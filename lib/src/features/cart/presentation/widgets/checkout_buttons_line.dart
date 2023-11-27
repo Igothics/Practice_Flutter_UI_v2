@@ -17,6 +17,7 @@ class CheckOutButtonsLine extends HookConsumerWidget {
     final userId = ref.watch(authServiceProvider).currentUser?.id;
     final cartController = ref.watch(cartServiceProvider(userId).notifier);
     final inactiveItemFound = ref.watch(inactiveItemFoundProvider);
+    final cartItemsCount = ref.watch(cartServiceProvider(userId)).length;
     final feeContainer = ref.watch(feeContainerProvider);
 
     return Row(
@@ -32,7 +33,7 @@ class CheckOutButtonsLine extends HookConsumerWidget {
           },
         ),
         TrashButton(
-          onPressed: !inactiveItemFound ? null : () => cartController.purgeInactiveItems(),
+          onPressed: !inactiveItemFound || cartItemsCount <= 0 ? null : () => cartController.purgeInactiveItems(),
         ),
         const SizedBox(width: 16.0,),
         Expanded(

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,12 +21,8 @@ Size useSizeDefine(
           controller.update((state) {
             final horizontalMargin = margin == null ? 0.0 : margin.left + margin.right;
             final verticalMargin = margin == null ? 0.0 : margin.top + margin.bottom;
-
-            // log('[useSizeDefine "$targetStringKey"]: ${renderBox.size.height - verticalMargin}');
             return Size(renderBox.size.width - horizontalMargin, renderBox.size.height - verticalMargin);
           });
-        } else {
-          // log('[useSizeDefine "$targetStringKey"]: null!');
         }
       },
     );

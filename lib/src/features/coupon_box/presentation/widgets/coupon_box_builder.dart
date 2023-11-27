@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:practice_food_delivery/src/common_widgets/custom_animation.dart';
 import 'package:practice_food_delivery/src/common_widgets/stored_list_view.dart';
 import 'package:practice_food_delivery/src/features/authentication/application/auth_serviced_provider.dart';
 import 'package:practice_food_delivery/src/features/coupon_box/domain/coupon.dart';
@@ -47,28 +49,31 @@ class CouponBoxBuilder extends HookConsumerWidget {
         final trailing = '$count / ${coupon.maxUsageCount}';
         final isSelected = ref.watch(isSelectedCouponProvider(index));
 
-        return CouponCard(
-          selected: enabled && isSelected,
-          enabled: enabled,
-          margin: margin,
-          infoPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-          cardId: '$keyGroup-$index',
-          icon: Icon(icon, color: colorScheme.onPrimaryContainer,),
-          titles: [Text(title,)],
-          subtitles: [Text(subtitle,)],
-          trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Used',),
-              Text(trailing,),
-            ],
+        return CustomAnimation.fadeSlide(
+          delay: 100.ms * index,
+          child: CouponCard(
+            selected: enabled && isSelected,
+            enabled: enabled,
+            margin: margin,
+            infoPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            cardId: '$keyGroup-$index',
+            icon: Icon(icon, color: colorScheme.onPrimaryContainer,),
+            titles: [Text(title,)],
+            subtitles: [Text(subtitle,)],
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Used',),
+                Text(trailing,),
+              ],
+            ),
+            onPressed: () {
+              ref.read(chosenCouponProvider(userId).notifier)
+                  .update((state) => state?.code != coupon.code ? coupon : null);
+              ref.read(selectedCouponIndexProvider(userId).notifier)
+                  .update((state) => state != index ? index : null);
+            },
           ),
-          onPressed: () {
-            ref.read(chosenCouponProvider(userId).notifier)
-                .update((state) => state?.code != coupon.code ? coupon : null);
-            ref.read(selectedCouponIndexProvider(userId).notifier)
-                .update((state) => state != index ? index : null);
-          },
         );
       },
     );

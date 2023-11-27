@@ -15,5 +15,9 @@ class Assets {
   static const String imagesRestaurant4 = 'assets/images/restaurant4.jpg';
   static const String imagesSalmon = 'assets/images/salmon.jpg';
   static const String imagesSteak = 'assets/images/steak.jpg';
+  static const String jsonsCart = 'assets/jsons/cart.json';
+  static const String jsonsFavorite = 'assets/jsons/favorite.json';
+  static const String jsonsPlus = 'assets/jsons/plus.json';
+  static const String jsonsTrash = 'assets/jsons/trash.json';
 
 }

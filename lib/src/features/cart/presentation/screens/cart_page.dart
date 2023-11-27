@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:practice_food_delivery/src/common_provider/global_key_provider.dart';
 import 'package:practice_food_delivery/src/common_use_hook/use_size_define.dart';
+import 'package:practice_food_delivery/src/common_widgets/count_up_title.dart';
+import 'package:practice_food_delivery/src/common_widgets/custom_animation.dart';
+import 'package:practice_food_delivery/src/constants/enum.dart';
 import 'package:practice_food_delivery/src/features/authentication/application/auth_serviced_provider.dart';
 import 'package:practice_food_delivery/src/features/cart/application/cart_service_provider.dart';
 import 'package:practice_food_delivery/src/common_widgets/pop_icon_button.dart';
@@ -33,7 +36,10 @@ class CartPage extends HookConsumerWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(radius: 16.0,child: Text('${cartItems.length}'),),
+            child: CircleAvatar(
+              radius: 16.0,
+              child: CountUp.text(cartItems.length),
+            ),
           )
         ],
       ),
@@ -41,9 +47,12 @@ class CartPage extends HookConsumerWidget {
       bottomNavigationBar: userBalance.when(
         error: (error, _) => Text('Error: $error'),
         loading: () => const Center(child: CircularProgressIndicator()),
-        data: (data) => CheckoutFooter(
-          footerCardKey: footerGlobalKey,
-          userBalance: data,
+        data: (data) => CustomAnimation.fadeSlide(
+          direction: SlideAxis.bottomToTop,
+          child: CheckoutFooter(
+            footerCardKey: footerGlobalKey,
+            userBalance: data,
+          ),
         ),
       ),
       body: CartItemsBuilder(

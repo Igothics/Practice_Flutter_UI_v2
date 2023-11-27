@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:practice_food_delivery/src/common_widgets/custom_animation.dart';
 import 'package:practice_food_delivery/src/common_widgets/stored_list_view.dart';
 import 'package:practice_food_delivery/src/features/payment/domain/transfer.dart';
 import 'package:practice_food_delivery/src/features/payment/presentation/widgets/transfer_card.dart';
@@ -33,9 +35,12 @@ class TransferLogBuilder extends HookConsumerWidget {
         itemBuilder: (_, index) {
           final transfer = transfers[index];
 
-          return TransferCard(
-            transfer: transfer,
-            margin: margin,
+          return CustomAnimation.fadeSlide(
+            delay: 200.ms * index,
+            child: TransferCard(
+              transfer: transfer,
+              margin: margin,
+            ),
           );
         },
       ),

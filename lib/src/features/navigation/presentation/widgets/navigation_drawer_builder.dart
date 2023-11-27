@@ -23,10 +23,11 @@ class NavigationDrawerBuilder extends HookConsumerWidget {
         const DrawerDarkModeButton(),
         const DrawerLogoutButton(),
       ],
-      onDestinationSelected: (index) {
+      onDestinationSelected: (index) async {
         final location = drawerController.updateAndReturnLocation(index);
         drawerController.triggerCallback();
         context.go(location); // should never watch in function
+        await Future.delayed(const Duration(milliseconds: 200)).then((value) => context.pop());
       },
     );
   }

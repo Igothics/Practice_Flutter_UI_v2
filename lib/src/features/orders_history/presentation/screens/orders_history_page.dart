@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:practice_food_delivery/src/common_widgets/count_up_title.dart';
 import 'package:practice_food_delivery/src/common_widgets/standard_title.dart';
 import 'package:practice_food_delivery/src/features/orders_history/presentation/providers/user_order_provider.dart';
 import 'package:practice_food_delivery/src/features/orders_history/presentation/widgets/orders_history_builder.dart';
@@ -19,8 +20,9 @@ class OrdersHistory extends HookConsumerWidget {
             userOrders.when(
               error: (error, _) => const StandardTitle('Error!',),
               loading: () => const StandardTitle('loading...', prefix: 'Total: ',),
-              data: (data) => StandardTitle(
-                '${data.orders.length}',
+              data: (data) => CountUp.title(
+                context,
+                data.orders.length,
                 prefix: 'Total: ',
                 suffix: ' orders',
               ),

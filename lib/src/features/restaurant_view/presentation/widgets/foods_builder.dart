@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:practice_food_delivery/src/common_widgets/custom_animation.dart';
 import 'package:practice_food_delivery/src/common_widgets/stored_grid_view.dart';
+import 'package:practice_food_delivery/src/constants/enum.dart';
 import 'package:practice_food_delivery/src/features/restaurant_view/domain/restaurant.dart';
 import 'package:practice_food_delivery/src/features/restaurant_view/domain/menu.dart';
 import 'package:practice_food_delivery/src/features/restaurant_view/presentation/widgets/food_card.dart';
@@ -32,10 +35,14 @@ class FoodsBuilder extends HookConsumerWidget {
           itemBuilder: (_, index) {
             final food = data.foods[index];
 
-            return FoodCard(
-              groupKey: '$groupKey-$index',
-              food: food,
-              restaurant: restaurant,
+            return CustomAnimation.fadeSlide(
+              delay: 100.ms * index,
+              direction: SlideAxis.bottomToTop,
+              child: FoodCard(
+                groupKey: '$groupKey-$index',
+                food: food,
+                restaurant: restaurant,
+              ),
             );
           },
       ),
