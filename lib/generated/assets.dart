@@ -2,6 +2,9 @@
 class Assets {
   Assets._();
 
+  static const String iconsAppIcon = 'assets/icons/app_icon.png';
+  static const String iconsAppIcon1024 = 'assets/icons/app_icon_1024.png';
+  static const String iconsAppIcon1024Cutoff = 'assets/icons/app_icon_1024_cutoff2.png';
   static const String imagesBurger = 'assets/images/burger.jpg';
   static const String imagesBurrito = 'assets/images/burrito.jpg';
   static const String imagesPancakes = 'assets/images/pancakes.jpg';

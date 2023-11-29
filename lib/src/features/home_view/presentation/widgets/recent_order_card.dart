@@ -39,7 +39,6 @@ class RecentOrderCard extends StatelessWidget {
         Text(restaurantName,),
       ],
       subtitles: [
-        const SizedBox(height: 8.0,),
         Text(orderDate,),
       ],
       trailingAlignment: Alignment.centerRight,

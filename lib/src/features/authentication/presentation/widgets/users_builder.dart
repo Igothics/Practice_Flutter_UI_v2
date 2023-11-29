@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:practice_food_delivery/src/common_widgets/custom_animation.dart';
 import 'package:practice_food_delivery/src/common_widgets/round_text_avatar.dart';
 import 'package:practice_food_delivery/src/features/authentication/application/auth_serviced_provider.dart';
 import 'package:practice_food_delivery/src/features/authentication/domain/user.dart';
@@ -24,23 +26,27 @@ class UsersBuilder extends HookConsumerWidget {
           final subtitle = user.email;
           final backgroundColor = user.backgroundColor;
 
-          return ListTile(
-            leading: RoundTextAvatar(
-              label: title,
-              background: backgroundColor,
-            ),
-            title: Text(title),
-            subtitle: Text(subtitle),
-            trailing: IconButton(
-              icon: const Icon(Icons.login_rounded),
-              onPressed: () async {
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (_) => const Center(child: CircularProgressIndicator()),
-                );
-                await auth.signIn(user);
-              },
+          return CustomAnimation.fadeSlide(
+            delay: 200.ms * index,
+            child: ListTile(
+              leading: RoundTextAvatar(
+                label: title,
+                background: backgroundColor,
+              ),
+              title: Text(title),
+              subtitle: Text(subtitle),
+              trailing: IconButton(
+                icon: const Icon(Icons.login_rounded),
+                onPressed: () async {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (_) => const Center(child: CircularProgressIndicator()),
+                  );
+                  await Future.delayed(const Duration(milliseconds: 300),);
+                  await auth.signIn(user);
+                },
+              ),
             ),
           );
         },

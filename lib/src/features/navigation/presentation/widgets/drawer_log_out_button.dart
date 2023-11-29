@@ -17,6 +17,7 @@ class DrawerLogoutButton extends HookConsumerWidget {
           context: context,
           builder: (_) => const Center(child: CircularProgressIndicator()),
         );
+        await Future.delayed(const Duration(milliseconds: 300),);
         await ref.read(authServiceProvider.notifier).signOut();
       },
     );
