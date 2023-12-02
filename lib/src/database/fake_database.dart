@@ -83,7 +83,6 @@ class FakeDatabase {
     final userBalanceJsons = randomData.getUserBalanceJsons;
     final userCouponBoxJsons = randomData.getUserCouponBoxJsons;
 
-    // return;
     log('[FakeDatabase]: Generate new data...');
     await _db.transaction((tnx) async {
         for (int i = 0; i < restaurantUids.length; i++) {

@@ -12,7 +12,6 @@ class StoredListView extends HookConsumerWidget {
     required this.storeKey,
     required this.itemBuilder,
   });
-
   final String storeKey;
   final EdgeInsets? listPadding;
   final int? itemCount;

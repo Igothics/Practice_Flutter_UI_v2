@@ -8,9 +8,7 @@ import 'package:practice_food_delivery/src/features/authentication/domain/user.d
 
 class UsersBuilder extends HookConsumerWidget {
   const UsersBuilder({super.key, required this.asyncData});
-
   final AsyncValue<List<User>> asyncData;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authServiceProvider);

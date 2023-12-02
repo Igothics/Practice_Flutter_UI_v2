@@ -52,7 +52,6 @@ class CheckoutButton extends HookConsumerWidget {
       ),
     );
   }
-
   void _showSuccessDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -64,5 +63,4 @@ class CheckoutButton extends HookConsumerWidget {
       ),
     );
   }
-
 }

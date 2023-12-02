@@ -9,10 +9,6 @@ class UserRepository {
   Database get _db => database.db;
   StoreRef get _userStore => database.userStore;
 
-  Future<void> updateUser(int id, User user) async {
-    final userJson = user.toJson();
-    await _userStore.record(id).update(_db, userJson);
-  }
   Future<List<User>> getAllUsers() async {
     final userJsons = (await _userStore.find(_db)).map((record) => record.value as Map<String, dynamic>);
     final users = userJsons.map((json) => User.fromJson(json)).toList();

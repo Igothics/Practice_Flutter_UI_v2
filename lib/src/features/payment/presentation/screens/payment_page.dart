@@ -12,7 +12,6 @@ import 'package:practice_food_delivery/src/features/payment/presentation/widgets
 
 class PaymentPage extends HookConsumerWidget {
   const PaymentPage({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textController = useTextEditingController();

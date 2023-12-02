@@ -12,50 +12,51 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/burger.jpg
-  AssetGenImage get burger => const AssetGenImage('assets/images/burger.jpg');
+  /// File path: assets/images/burger.webp
+  AssetGenImage get burger => const AssetGenImage('assets/images/burger.webp');
 
-  /// File path: assets/images/burrito.jpg
-  AssetGenImage get burrito => const AssetGenImage('assets/images/burrito.jpg');
+  /// File path: assets/images/burrito.webp
+  AssetGenImage get burrito =>
+      const AssetGenImage('assets/images/burrito.webp');
 
-  /// File path: assets/images/pancakes.jpg
+  /// File path: assets/images/pancakes.webp
   AssetGenImage get pancakes =>
-      const AssetGenImage('assets/images/pancakes.jpg');
+      const AssetGenImage('assets/images/pancakes.webp');
 
-  /// File path: assets/images/pasta.jpg
-  AssetGenImage get pasta => const AssetGenImage('assets/images/pasta.jpg');
+  /// File path: assets/images/pasta.webp
+  AssetGenImage get pasta => const AssetGenImage('assets/images/pasta.webp');
 
-  /// File path: assets/images/pizza.jpg
-  AssetGenImage get pizza => const AssetGenImage('assets/images/pizza.jpg');
+  /// File path: assets/images/pizza.webp
+  AssetGenImage get pizza => const AssetGenImage('assets/images/pizza.webp');
 
-  /// File path: assets/images/ramen.jpg
-  AssetGenImage get ramen => const AssetGenImage('assets/images/ramen.jpg');
+  /// File path: assets/images/ramen.webp
+  AssetGenImage get ramen => const AssetGenImage('assets/images/ramen.webp');
 
-  /// File path: assets/images/restaurant0.jpg
+  /// File path: assets/images/restaurant0.webp
   AssetGenImage get restaurant0 =>
-      const AssetGenImage('assets/images/restaurant0.jpg');
+      const AssetGenImage('assets/images/restaurant0.webp');
 
-  /// File path: assets/images/restaurant1.jpg
+  /// File path: assets/images/restaurant1.webp
   AssetGenImage get restaurant1 =>
-      const AssetGenImage('assets/images/restaurant1.jpg');
+      const AssetGenImage('assets/images/restaurant1.webp');
 
-  /// File path: assets/images/restaurant2.jpg
+  /// File path: assets/images/restaurant2.webp
   AssetGenImage get restaurant2 =>
-      const AssetGenImage('assets/images/restaurant2.jpg');
+      const AssetGenImage('assets/images/restaurant2.webp');
 
-  /// File path: assets/images/restaurant3.jpg
+  /// File path: assets/images/restaurant3.webp
   AssetGenImage get restaurant3 =>
-      const AssetGenImage('assets/images/restaurant3.jpg');
+      const AssetGenImage('assets/images/restaurant3.webp');
 
-  /// File path: assets/images/restaurant4.jpg
+  /// File path: assets/images/restaurant4.webp
   AssetGenImage get restaurant4 =>
-      const AssetGenImage('assets/images/restaurant4.jpg');
+      const AssetGenImage('assets/images/restaurant4.webp');
 
-  /// File path: assets/images/salmon.jpg
-  AssetGenImage get salmon => const AssetGenImage('assets/images/salmon.jpg');
+  /// File path: assets/images/salmon.webp
+  AssetGenImage get salmon => const AssetGenImage('assets/images/salmon.webp');
 
-  /// File path: assets/images/steak.jpg
-  AssetGenImage get steak => const AssetGenImage('assets/images/steak.jpg');
+  /// File path: assets/images/steak.webp
+  AssetGenImage get steak => const AssetGenImage('assets/images/steak.webp');
 
   /// List of all assets
   List<AssetGenImage> get values => [
@@ -75,10 +76,30 @@ class $AssetsImagesGen {
       ];
 }
 
+class $AssetsJsonsGen {
+  const $AssetsJsonsGen();
+
+  /// File path: assets/jsons/cart.json
+  String get cart => 'assets/jsons/cart.json';
+
+  /// File path: assets/jsons/favorite.json
+  String get favorite => 'assets/jsons/favorite.json';
+
+  /// File path: assets/jsons/plus.json
+  String get plus => 'assets/jsons/plus.json';
+
+  /// File path: assets/jsons/trash.json
+  String get trash => 'assets/jsons/trash.json';
+
+  /// List of all assets
+  List<String> get values => [cart, favorite, plus, trash];
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsJsonsGen jsons = $AssetsJsonsGen();
 }
 
 class AssetGenImage {

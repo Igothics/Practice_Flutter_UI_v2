@@ -20,7 +20,6 @@ class PaymentButtonPairBuilder extends HookConsumerWidget {
     this.padding = EdgeInsets.zero,
     this.gap = 16.0,
   });
-
   final UserBalance data;
   final TextEditingController textController;
   final EdgeInsets? padding;

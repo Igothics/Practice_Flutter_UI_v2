@@ -18,7 +18,6 @@ class SelectCouponDialog extends HookConsumerWidget {
   final EdgeInsets? contentPadding;
   final EdgeInsets? insetPadding;
   final double? elevation;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;

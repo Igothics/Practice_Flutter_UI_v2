@@ -20,7 +20,6 @@ import 'package:practice_food_delivery/src/features/orders_history/presentation/
 import 'package:practice_food_delivery/src/features/payment/presentation/screens/payment_page.dart';
 import 'package:practice_food_delivery/src/features/profile/presentation/screens/user_profile_page.dart';
 import 'package:practice_food_delivery/src/features/settings/presentation/screens/settings_page.dart';
-import 'package:practice_food_delivery/test_color_page.dart';
 
 final routerProvider = AutoDisposeProvider<GoRouter>((ref) {
     //Please ensure that there is only include immutable 1 time created provider except auth, because it's main listenable
@@ -153,13 +152,6 @@ final routerProvider = AutoDisposeProvider<GoRouter>((ref) {
           pageBuilder: (_, state) => SlideTransitionPage(
             key: state.pageKey,
             child: const LogInPage(),
-          ),
-        ),
-        GoRoute(
-          path: '/test_color',
-          pageBuilder: (_, state) => SlideTransitionPage(
-            key: state.pageKey,
-            child: const TestColorPage(),
           ),
         ),
       ],

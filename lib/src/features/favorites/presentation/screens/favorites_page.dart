@@ -7,7 +7,6 @@ import 'package:practice_food_delivery/src/features/favorites/presentation/widge
 
 class FavoritesPage extends HookConsumerWidget {
   const FavoritesPage({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final favoritedRestaurants = ref.watch(favoritedRestaurantsProvider);

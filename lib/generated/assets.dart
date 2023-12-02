@@ -2,22 +2,20 @@
 class Assets {
   Assets._();
 
-  static const String iconsAppIcon = 'assets/icons/app_icon.png';
-  static const String iconsAppIcon1024 = 'assets/icons/app_icon_1024.png';
-  static const String iconsAppIcon1024Cutoff = 'assets/icons/app_icon_1024_cutoff2.png';
-  static const String imagesBurger = 'assets/images/burger.jpg';
-  static const String imagesBurrito = 'assets/images/burrito.jpg';
-  static const String imagesPancakes = 'assets/images/pancakes.jpg';
-  static const String imagesPasta = 'assets/images/pasta.jpg';
-  static const String imagesPizza = 'assets/images/pizza.jpg';
-  static const String imagesRamen = 'assets/images/ramen.jpg';
-  static const String imagesRestaurant0 = 'assets/images/restaurant0.jpg';
-  static const String imagesRestaurant1 = 'assets/images/restaurant1.jpg';
-  static const String imagesRestaurant2 = 'assets/images/restaurant2.jpg';
-  static const String imagesRestaurant3 = 'assets/images/restaurant3.jpg';
-  static const String imagesRestaurant4 = 'assets/images/restaurant4.jpg';
-  static const String imagesSalmon = 'assets/images/salmon.jpg';
-  static const String imagesSteak = 'assets/images/steak.jpg';
+  static const String iconsAppIcon1024Trans = 'assets/icons/app_icon_1024_trans.png';
+  static const String imagesBurger = 'assets/images/burger.webp';
+  static const String imagesBurrito = 'assets/images/burrito.webp';
+  static const String imagesPancakes = 'assets/images/pancakes.webp';
+  static const String imagesPasta = 'assets/images/pasta.webp';
+  static const String imagesPizza = 'assets/images/pizza.webp';
+  static const String imagesRamen = 'assets/images/ramen.webp';
+  static const String imagesRestaurant0 = 'assets/images/restaurant0.webp';
+  static const String imagesRestaurant1 = 'assets/images/restaurant1.webp';
+  static const String imagesRestaurant2 = 'assets/images/restaurant2.webp';
+  static const String imagesRestaurant3 = 'assets/images/restaurant3.webp';
+  static const String imagesRestaurant4 = 'assets/images/restaurant4.webp';
+  static const String imagesSalmon = 'assets/images/salmon.webp';
+  static const String imagesSteak = 'assets/images/steak.webp';
   static const String jsonsCart = 'assets/jsons/cart.json';
   static const String jsonsFavorite = 'assets/jsons/favorite.json';
   static const String jsonsPlus = 'assets/jsons/plus.json';

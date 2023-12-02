@@ -7,7 +7,7 @@ part of 'favorited_restaurants_provider.dart';
 // **************************************************************************
 
 String _$favoritedRestaurantsHash() =>
-    r'd74c998bdb65b115f20e51628c8445e738fedded';
+    r'2943757fdb6b16dfd6136a46365857f245187510';
 
 /// See also [favoritedRestaurants].
 @ProviderFor(favoritedRestaurants)

@@ -7,9 +7,9 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 void main() {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  runApp(ProviderScope(
-      observers: [MyObserver(providers: [])],
-      child: const WarmUp(),
+  runApp(const ProviderScope(
+      observers: [MyObserver(providerNames: ['sizeStore'])],
+      child: WarmUp(),
     ),
   );
 }

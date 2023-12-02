@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:practice_food_delivery/src/common_widgets/love_icon.dart';
 import 'package:practice_food_delivery/src/features/favorites/data/user_favorites_repository_provider.dart';
 import 'package:practice_food_delivery/src/features/favorites/presentation/providers/user_favorites_provider.dart';
-class FavoriteIconButton extends HookConsumerWidget {
-  const FavoriteIconButton({super.key, required this.restaurantId, this.size, this.color = Colors.red});
+class LoveIconButton extends HookConsumerWidget {
+  const LoveIconButton({super.key, required this.restaurantId, this.size, this.color = Colors.red});
   final int restaurantId;
   final double? size;
   final Color? color;

@@ -11,7 +11,6 @@ import 'package:practice_food_delivery/src/features/coupon_box/presentation/prov
 
 class CouponInfoLine extends HookConsumerWidget {
   const CouponInfoLine({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;

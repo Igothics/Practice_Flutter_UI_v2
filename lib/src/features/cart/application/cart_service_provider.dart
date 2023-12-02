@@ -21,7 +21,6 @@ class CartService extends _$CartService {
   @override
   List<Item> build(int? uid) => <Item>[];
 
-  void purgeAllItems() => state = <Item>[];
   void purgeActiveItems() {
     state = [
       for (int i = 0, index = 0; i < state.length; i++)
@@ -123,7 +122,6 @@ class CartService extends _$CartService {
   int getId() => state.length;
   List<Item> getAvailableItems() => state.where((item) => item.activated).toList();
   List<Order> getAvailableOrders() => getAvailableItems().map((item) => item.order).toList();
-  List<Order> getOrders() => state.map((item) => item.order).toList();
   List<Item> getItems() => [...state];
   Future<bool> checkOut(FeeContainer feeContainer) async {
     final userId = ref.read(authServiceProvider).currentUser?.id;
@@ -152,8 +150,8 @@ class CartService extends _$CartService {
     final chosenCoupon = ref.read(chosenCouponProvider(userId));
     if (chosenCoupon != null && feeContainer.discount > 0.0) {
       await userCouponBoxRepository.updateUserCouponBox( chosenCoupon.code);
-      ref.refresh(chosenCouponProvider(userId));
-      ref.refresh(selectedCouponIndexProvider(userId));
+      ref.invalidate(chosenCouponProvider(userId));
+      ref.invalidate(selectedCouponIndexProvider(userId));
     }
 
     purgeActiveItems();

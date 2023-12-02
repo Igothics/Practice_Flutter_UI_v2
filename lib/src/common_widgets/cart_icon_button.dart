@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:practice_food_delivery/src/common_widgets/cart_icon.dart';
 class CartIconButton extends StatelessWidget {
-
   const CartIconButton({
     super.key,
     this.padding,

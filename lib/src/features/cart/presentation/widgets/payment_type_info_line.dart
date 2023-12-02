@@ -7,7 +7,6 @@ import 'package:practice_food_delivery/src/features/payment/presentation/provide
 
 class PaymentTypeInfoLine extends HookConsumerWidget {
   const PaymentTypeInfoLine({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.watch(authServiceProvider).currentUser?.id;

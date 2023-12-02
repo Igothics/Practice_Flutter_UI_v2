@@ -33,27 +33,6 @@ class SimpleSizedCard extends StatelessWidget {
     );
   }
 
-  factory SimpleSizedCard.error({
-    double? width,
-    double? height,
-    EdgeInsets? margin,
-    EdgeInsets? contentPadding,
-    required String errorMessage,
-  }) {
-    return SimpleSizedCard(
-      width: width,
-      height: height,
-      margin: margin,
-      contentPadding: contentPadding,
-      child: Column(
-        children: [
-          const Text('Error:',),
-          Text(errorMessage,),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(

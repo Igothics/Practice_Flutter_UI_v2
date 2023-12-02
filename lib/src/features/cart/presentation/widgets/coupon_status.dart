@@ -6,7 +6,6 @@ class CouponStatusText extends StatelessWidget {
   const CouponStatusText({super.key, required this.coupon, required this.subtotal});
   final Coupon? coupon;
   final double subtotal;
-
   @override
   Widget build(BuildContext context) {
     final couponStatus = _getCouponStatus();

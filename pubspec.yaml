@@ -72,16 +72,23 @@ dev_dependencies:
 
 flutter_launcher_icons:
   android: true
-  image_path: "assets/icons/app_icon.png"
-  adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/icons/app_icon_1024.png"
+  ios: false
+  image_path: "assets/icons/app_icon_1024_trans.png"
+  adaptive_icon_background: "#ffe1c4"
+  adaptive_icon_foreground: "assets/icons/app_icon_1024_trans.png"
+  web:
+    generate: false
+  windows:
+    generate: false
+  macos:
+    generate: false
 
 flutter_native_splash:
-  color: "#f39464"
-  image: "assets/icons/app_icon_1024_cutoff2.png"
+  color: "#ffe1c4"
+  image: "assets/icons/app_icon_1024_trans.png"
   android_12:
-    image: "assets/icons/app_icon_1024_cutoff2.png"
-    color: "#f39464"
+    image: "assets/icons/app_icon_1024_trans.png"
+    color: "#ffe1c4"
   android: true
   ios: false
   web: false

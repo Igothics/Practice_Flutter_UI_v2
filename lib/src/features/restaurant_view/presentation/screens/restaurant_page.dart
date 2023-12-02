@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:practice_food_delivery/src/common_widgets/cart_icon_fab.dart';
 import 'package:practice_food_delivery/src/common_widgets/contrasting_button_pair.dart';
 import 'package:practice_food_delivery/src/common_widgets/hero_image.dart';
-import 'package:practice_food_delivery/src/common_widgets/favorite_icon_button.dart';
+import 'package:practice_food_delivery/src/common_widgets/love_icon_button.dart';
 import 'package:practice_food_delivery/src/common_widgets/pop_icon_button.dart';
 import 'package:practice_food_delivery/src/common_widgets/standard_title.dart';
 import 'package:practice_food_delivery/src/features/restaurant_view/domain/restaurant.dart';
@@ -24,7 +24,7 @@ class RestaurantPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const PopIconButton(),
-        actions: [FavoriteIconButton(restaurantId: restaurant.id),],
+        actions: [LoveIconButton(restaurantId: restaurant.id),],
       ),
       floatingActionButton: const CartIconFab(),
       extendBodyBehindAppBar: true,

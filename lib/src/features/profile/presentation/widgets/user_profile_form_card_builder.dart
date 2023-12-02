@@ -13,7 +13,6 @@ class UserProfileFormCardBuilder extends HookConsumerWidget {
     this.margin = EdgeInsets.zero,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 16.0),
   });
-
   final GlobalKey<FormState>? formKey;
   final String groupKey;
   final bool isWaiting;

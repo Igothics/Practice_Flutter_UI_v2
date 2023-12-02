@@ -7,7 +7,6 @@ class InfoCard extends StatelessWidget {
     this.infoPadding = const EdgeInsets.all(16.0),
     this.children = const <Widget>[],
   });
-
   final EdgeInsets? margin;
   final EdgeInsets? infoPadding;
   final List<Widget> children;

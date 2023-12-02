@@ -6,10 +6,7 @@ import 'package:practice_food_delivery/src/features/coupon_box/presentation/prov
 import 'package:practice_food_delivery/src/features/coupon_box/presentation/widgets/coupon_box_builder.dart';
 
 class AvailableCouponsPage extends HookConsumerWidget {
-  const AvailableCouponsPage({
-    super.key,
-  });
-
+  const AvailableCouponsPage({super.key,});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;

@@ -6,7 +6,7 @@ part of 'filtered_coupons_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$filteredCouponsHash() => r'cb1ac74bcdccd6d33b52c200ed65a4f0da842329';
+String _$filteredCouponsHash() => r'966e7127be415452cc98cf637583361fcc9b80a0';
 
 /// See also [filteredCoupons].
 @ProviderFor(filteredCoupons)

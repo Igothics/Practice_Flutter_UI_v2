@@ -15,7 +15,6 @@ class TransferLogBuilder extends HookConsumerWidget {
     this.listPadding = const EdgeInsets.symmetric(horizontal: 16.0),
     this.listHeight = 728,
   });
-
   final List<Transfer> data;
   final String groupKey;
   final EdgeInsets? margin;

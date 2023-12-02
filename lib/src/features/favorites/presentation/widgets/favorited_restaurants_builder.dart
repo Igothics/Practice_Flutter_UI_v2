@@ -14,7 +14,6 @@ class FavoritedRestaurantBuilder extends StatelessWidget {
     this.margin = const EdgeInsets.symmetric(vertical: 8.0),
     this.listPadding = const EdgeInsets.symmetric(horizontal: 16.0),
   });
-
   final String groupKey;
   final AsyncValue<List<Restaurant>> asyncData;
   final EdgeInsets? margin;

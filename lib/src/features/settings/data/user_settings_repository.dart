@@ -10,16 +10,6 @@ class UserSettingsRepository {
   Database get _db => database.db;
   StoreRef get _userSettingsStore => database.userSettingsStore;
 
-  Future<UserSettings> getUserSettings() async {
-    final userSettingsJson = (await _userSettingsStore.record(_key).get(_db)) as Map<String, dynamic>;
-    final result = UserSettings.fromJson(userSettingsJson);
-    return result;
-  }
-  Future<void> updateUserSettings(UserSettings userSettings) async {
-    final userSettingsJson = userSettings.toJson();
-    await _userSettingsStore.record(_key).update(_db, userSettingsJson);
-  }
-
   Stream<UserSettings> onUserSettingsChanged() {
     final userSettingsJson = _userSettingsStore.record(_key)
         .onSnapshot(_db)

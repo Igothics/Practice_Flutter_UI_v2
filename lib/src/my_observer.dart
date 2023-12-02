@@ -4,10 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:practice_food_delivery/src/utils/extension.dart';
 
 class MyObserver extends ProviderObserver {
-  MyObserver({this.providers});
+  const MyObserver({this.providerNames});
 
-  final List<ProviderBase>? providers;
-  bool _validate(ProviderBase<Object?> provider) => providers == null || (providers != null && providers!.contains(provider));
+  final List<String>? providerNames;
+  bool _validate(ProviderBase<Object?> provider) => providerNames == null
+      || (providerNames != null && providerNames!.contains(provider.name));
   String _handeLongData(Object? value) {
     final result = '$value';
     if (result.length > 30) {

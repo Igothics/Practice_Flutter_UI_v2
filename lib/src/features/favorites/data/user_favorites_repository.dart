@@ -4,12 +4,9 @@ import 'package:sembast/sembast.dart';
 
 class UserFavoritesRepository {
   const UserFavoritesRepository(this._key, this.database);
-
   final String _key;
   final FakeDatabase database;
-
   Database get _db => database.db;
-
   StoreRef get _userFavoriteStore => database.userFavoriteStore;
 
   Stream<UserFavorites> onUserFavoritesChanged() {

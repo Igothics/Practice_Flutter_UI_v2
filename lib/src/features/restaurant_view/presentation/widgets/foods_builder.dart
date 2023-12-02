@@ -28,23 +28,23 @@ class FoodsBuilder extends HookConsumerWidget {
       error: (error, _) => Text('Error: $error'),
       loading: () => const Center(child: CircularProgressIndicator()),
       data: (data) => StoredGridView(
-          storeKey: groupKey,
-          gap: innerGap,
-          gridPadding: gridPadding,
-          itemCount: data.foods.length,
-          itemBuilder: (_, index) {
-            final food = data.foods[index];
+        storeKey: groupKey,
+        gap: innerGap,
+        gridPadding: gridPadding,
+        itemCount: data.foods.length,
+        itemBuilder: (_, index) {
+          final food = data.foods[index];
 
-            return CustomAnimation.fadeSlide(
-              delay: 100.ms * index,
-              direction: SlideAxis.bottomToTop,
-              child: FoodCard(
-                groupKey: '$groupKey-$index',
-                food: food,
-                restaurant: restaurant,
-              ),
-            );
-          },
+          return CustomAnimation.fadeSlide(
+            delay: 100.ms * index,
+            direction: SlideAxis.bottomToTop,
+            child: FoodCard(
+              groupKey: '$groupKey-$index',
+              food: food,
+              restaurant: restaurant,
+            ),
+          );
+        },
       ),
     );
   }

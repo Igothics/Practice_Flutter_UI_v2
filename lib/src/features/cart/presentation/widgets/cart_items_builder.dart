@@ -21,7 +21,6 @@ class CartItemsBuilder extends HookConsumerWidget {
   final String groupKey;
   final List<Item> data;
   final double? footerExtend;
-
   final EdgeInsets? margin;
   final EdgeInsets? listPadding;
 
@@ -31,29 +30,29 @@ class CartItemsBuilder extends HookConsumerWidget {
     final cartController = ref.watch(cartServiceProvider(user?.id).notifier);
 
     return StoredListView(
-        storeKey: groupKey,
-        listPadding: listPadding,
-        itemCount: data.length + 1,
-        itemBuilder: (_, index){
-          if (index == data.length) {
-            return SizedBox(height: footerExtend,);
-          }
-          final item = data[index];
+      storeKey: groupKey,
+      listPadding: listPadding,
+      itemCount: data.length + 1,
+      itemBuilder: (_, index){
+        if (index == data.length) {
+          return SizedBox(height: footerExtend,);
+        }
+        final item = data[index];
 
-          return CustomAnimation.fadeSlide(
-            delay: 150.ms * index,
-            direction: SlideAxis.leftToRight,
-            child: CartItemCard(
-              groupKey: '$groupKey-$index',
-              item: item,
-              margin: margin,
-              onCheckBoxChanged: (_)=> cartController.toggleItem(index),
-              onRemoveButtonPressed: () => cartController.removeItem(index),
-              onAddPressed: () => cartController.updateQuantity(index, CartOperation.increase),
-              onSubtractPressed: () => cartController.updateQuantity(index, CartOperation.decrease),
-            ),
-          );
-        },
+        return CustomAnimation.fadeSlide(
+          delay: 150.ms * index,
+          direction: SlideAxis.leftToRight,
+          child: CartItemCard(
+            groupKey: '$groupKey-$index',
+            item: item,
+            margin: margin,
+            onCheckBoxChanged: (_)=> cartController.toggleItem(index),
+            onRemoveButtonPressed: () => cartController.removeItem(index),
+            onAddPressed: () => cartController.updateQuantity(index, CartOperation.increase),
+            onSubtractPressed: () => cartController.updateQuantity(index, CartOperation.decrease),
+          ),
+        );
+      },
     );
   }
 }
